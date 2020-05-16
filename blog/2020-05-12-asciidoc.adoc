@@ -1,0 +1,10 @@
+---
+title: Blog!
+description: 'a description'
+published: true
+slugs:
+    - asciidoc
+
+---
+== ASCIIDOC
+

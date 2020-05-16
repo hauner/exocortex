@@ -1,0 +1,38 @@
+---
+title: Blog!
+description: 'a description'
+published: true
+slugs:
+    - first
+---
+:imagesdir: assets
+
+
+== FIRST
+
+a source code snippet... add styling with prismjs.
+
+[source,java]
+----
+package generated.api;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+
+public interface Api {
+
+    @GetMapping(
+            path = "/foo",
+            produces = {"application/json"})
+    Foo getFooApplicationJson();
+
+    @GetMapping(
+            path = "/foo",
+            produces = {"text/plain"})
+    String getFooTextPlain();
+
+}
+----
+
+image::avatar-480x480.png[avatar]
+
