@@ -1,0 +1,57 @@
+---
+date: 2020-05-18
+title: 'Angular: modify css classes on body element'
+description: 'simple solution for modifying css <class>es on the body element.'
+published: true
+tags:
+    - angular
+---
+
+Modifying the css `<class>`-es on the `<body>` element is not straight forward. The `<body>` element
+is the parent of the angular app. It is not in a component template we can easily modify:
+
+
+[source,html]
+----
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- ... -->
+</head>
+<body>
+  <app-root></app-root>
+</body>
+----
+
+To access the `<body>` element inject the `Document` and then use a `Renderer2` to modify it:
+
+
+[source,typescript]
+----
+import {Component, Inject, Renderer2} from '@angular/core';
+import {DOCUMENT} from "@angular/common";
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
+})
+export class AppComponent {
+
+  constructor(
+    @Inject(DOCUMENT) private document: Document,
+    private renderer: Renderer2
+  ) {}
+
+
+  showMenu (event: Event) {
+    this.renderer.addClass(this.document.body, 'is-menu-visible');
+  }
+
+  hideMenu () {
+    this.renderer.removeClass(this.document.body, 'is-menu-visible');
+  }
+
+}
+----
+

@@ -1,0 +1,74 @@
+---
+date: 2020-05-19
+title: 'RxJs: custom operator'
+description: 'writing a simple custom rxjs operator.'
+published: true
+tags:
+  - rxjs
+  - angular
+---
+
+Using multiple `pipe` operators on an `Observable` to do *one thing* makes it harder to understand.
+This is the same problem as in "normal" code.
+
+With normal code we extract a method if the steps involved don't fit the abstraction level of the
+code we are working at. We can do the same with an `Observable` by extracting the steps into a custom
+rxjs operator.
+
+Lets say we have an `article$` observable: `Observable<Article[]>`. It provides a list of all blog
+articles unordered and with a mix of published and unpublished articles.
+
+We want to find the latest published article. That could look like this:
+
+[source,typescript]
+----
+
+articles$
+.pipe(
+    map (articles => {
+      return articles
+        .filter (r => r.published)
+        .sort((l, r) => r.date.localeCompare (l.date))
+        .shift()
+    })
+)
+.subscribe(...);
+
+----
+
+If we want to use the latest published article we don't care so much about the details to get it.
+The code would be easier to read if it would just say:
+
+[source,typescript]
+----
+articles$
+  .pipe(
+    latest()
+  )
+  .subscribe(...);
+----
+
+
+It is possible with a custom rxjs operator. The function returns a factory function that takes
+the source `observable` as parameter and returns it modified by the pipe operator chain we
+used in the initial code:
+
+
+[source,typescript]
+----
+export function latest (): OperatorFunction<Article[], Article> {
+  return (source$: Observable<Article[]>) => {
+    return source$
+      .pipe(
+        map (routes => {
+          return routes
+            .filter (r => r.published)
+            .sort((l, r) => r.date.localeCompare (l.date)
+            .shift()
+        })
+      )
+  };
+}
+
+----
+
