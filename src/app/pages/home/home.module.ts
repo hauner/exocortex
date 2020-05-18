@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
-import {PartsModule} from "../parts/parts.module";
+import {PartsModule} from '../../parts/parts.module';
 
 
 @NgModule({

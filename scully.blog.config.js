@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.config = {
     projectRoot: "./src",
-    projectName: "hauner-ng",
+    projectName: "blog",
     outDir: './dist/static',
     routes: {
         '/blog/:slug': {

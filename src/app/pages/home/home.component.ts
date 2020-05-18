@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {ScullyRoutesService} from "@scullyio/ng-lib";
-import {latestBlog} from "../operators/latest-blog";
+import {latestBlog} from "../../operators/latest-blog";
 
 
 @Component({

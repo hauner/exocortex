@@ -1,7 +1,7 @@
 import { ScullyConfig } from '@scullyio/scully';
 export const config: ScullyConfig = {
   projectRoot: "./src",
-  projectName: "hauner-ng",
+  projectName: "blog",
   outDir: './dist/static',
   routes: {
     '/blog/:slug': {
