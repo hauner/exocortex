@@ -1,8 +1,56 @@
-<h3>ScullyIo content</h3>
-<hr>
+<div id="wrapper">
 
-<!-- This is where Scully will inject the static HTML -->
-<scully-content></scully-content>
+  <app-header></app-header>
 
-<hr>
-<h4>End of content</h4>
+  <div id="main">
+
+    <div *ngIf="current">
+
+      <article class="post">
+
+        <header>
+          <div class="title">
+            <h2>{{current.title}}</h2>
+            <p>{{current.description}}</p>
+          </div>
+          <div class="meta">
+            <time class="published" [attr.datetime]="current.date">{{current.date | date:'fullDate'}}</time>
+          </div>
+        </header>
+
+        <scully-content></scully-content>
+
+        <footer>
+          <ul class="stats">
+            <li *ngFor="let tag of current.tags">
+<!--              <a href="#" class="icon solid fa-tag">{{tag}}</a>-->
+              <span class="icon solid fa-tag">{{tag}}</span>
+            </li>
+          </ul>
+        </footer>
+      </article>
+
+      <!-- Pagination -->
+      <ul class="actions pagination">
+        <li>
+          <a *ngIf="routePrev" [routerLink]="[routePrev.route]" class="button large previous">Previous Article - {{routePrev.date | date:'dd.MM.yy'}}</a>
+          <a *ngIf="!routePrev" class="button large previous disabled">No Next Article</a>
+        </li>
+
+        <li>
+          <a *ngIf="routeNext" [routerLink]="[routeNext.route]" class="button large next">Next Article - {{routeNext.date | date:'dd.MM.yy'}}</a>
+          <a *ngIf="!routeNext" class="button large next disabled">No Previous Article</a>
+        </li>
+      </ul>
+
+    </div>
+
+    <!-- debug
+    <p>blog: <span>{{ blog | json }}</span></p>
+    -->
+
+  </div>
+
+  <app-sidebar></app-sidebar>
+
+</div>
