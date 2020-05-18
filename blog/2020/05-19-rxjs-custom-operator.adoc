@@ -49,9 +49,10 @@ articles$
 ----
 
 
-It is possible with a custom rxjs operator. The function returns a factory function that takes
-the source `observable` as parameter and returns it modified by the pipe operator chain we
-used in the initial code:
+It is possible with a custom rxjs operator.
+
+The function returns a factory function that takes the source `observable` as parameter and returns
+it modified by the pipe operator chain we used in the initial code:
 
 
 [source,typescript]
