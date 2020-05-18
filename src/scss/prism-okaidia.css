@@ -1,0 +1,32 @@
+/* improve prism layout */
+
+code[class*="language-"] {
+    border: none;
+    font-size: 92% !important;
+}
+
+/* improve & fix toolbar layout */
+div.code-toolbar>.toolbar {
+    right: 1em !important;
+}
+
+div.code-toolbar>.toolbar .toolbar-item {
+    display: inline-block;
+    margin-left: 5px;
+}
+
+div.code-toolbar>.toolbar .toolbar-item button {
+    height: auto;
+}
+
+
+/* better vertical layout */
+.listingblock {
+    margin-bottom: 2em;
+}
+
+/* fix prism background */
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+    background: #272822 !important;
+}

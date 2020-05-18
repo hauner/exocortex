@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewChecked, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {ScullyRoute, ScullyRoutesService} from "@scullyio/ng-lib";
 import {from, Subscription} from "rxjs";
 import {flatMap, map, pairwise, switchMap, tap} from 'rxjs/operators';
+import {HighlightService} from "../../highlight.service";
 
 
 @Component({
@@ -12,7 +13,7 @@ import {flatMap, map, pairwise, switchMap, tap} from 'rxjs/operators';
   styleUrls: ['./blog.component.scss'],
   preserveWhitespaces: true
 })
-export class BlogComponent implements OnInit {
+export class BlogComponent implements OnInit, AfterViewChecked {
 
   sub: Subscription;
 
@@ -20,7 +21,11 @@ export class BlogComponent implements OnInit {
   routePrev: ScullyRoute;
   routeNext: ScullyRoute;
 
-  constructor(private router: Router, private route: ActivatedRoute, private scully: ScullyRoutesService, private location: Location) {
+  constructor(
+    private location: Location,
+    private scully: ScullyRoutesService,
+    private highlightService: HighlightService
+  ) {
   }
 
   ngOnInit() {
@@ -29,6 +34,10 @@ export class BlogComponent implements OnInit {
     });
 
     this.initCurrent();
+  }
+
+  ngAfterViewChecked() {
+    this.highlightService.highlightAll();
   }
 
   private initCurrent () {
