@@ -73,4 +73,4 @@ export function latest (): OperatorFunction<Article[], Article> {
 
 ----
 
-That's all. pass:[<i class="far fa-smile"></i>]
+That's it. pass:[<i class="far fa-smile"></i>]
