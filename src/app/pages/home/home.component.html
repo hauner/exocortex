@@ -7,9 +7,9 @@
     <!-- Posts List -->
     <section>
 
-      <div class="mini-posts" *ngFor="let blog of links$ | async">
+      <div class="mini-posts">
 
-          <article class="mini-post">
+          <article class="mini-post" *ngFor="let blog of links$ | async">
 
             <header>
               <h3><a [routerLink]="[blog.route]">{{blog.title}}</a></h3>
