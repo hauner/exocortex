@@ -5,7 +5,7 @@
     <a [routerLink]="['/']" class="logo"><img src="assets/avatar-480x480.png" alt="avatar"/></a>
     <header>
 <!--      <h3>software noise</h3>-->
-      <p>my Exocortex Memory.</p>
+      <p>my Exocortex Memory</p>
     </header>
   </section>
 
@@ -40,7 +40,9 @@
             <div class="tags">
               <ul class="stats">
                 <li *ngFor="let tag of blog.tags">
-                  <span class="icon solid fa-tag">{{tag}}</span>
+                  <a [routerLink]="['/tags', tag]">
+                    <span class="icon solid fa-tag">{{tag}}</span>
+                  </a>
                 </li>
               </ul>
             </div>

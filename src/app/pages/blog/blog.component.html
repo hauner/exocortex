@@ -19,7 +19,9 @@
             <div class="tags">
               <ul class="stats">
                 <li *ngFor="let tag of current.tags">
-                  <span class="icon solid fa-tag">{{tag}}</span>
+                  <a [routerLink]="['/tags', tag]">
+                    <span class="icon solid fa-tag">{{tag}}</span>
+                  </a>
                 </li>
               </ul>
             </div>
