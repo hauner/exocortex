@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import {ScullyRoutesService} from "@scullyio/ng-lib";
-import {latestBlog} from "../../operators/latest-blog";
+import {ScullyRoute, ScullyRoutesService} from "@scullyio/ng-lib";
+import {Observable} from "rxjs";
+import {latestBlogs} from "../../operators/latest-blog";
 
 
 @Component({
@@ -11,6 +12,11 @@ import {latestBlog} from "../../operators/latest-blog";
 })
 export class HomeComponent implements OnInit {
 
+  links$: Observable<ScullyRoute[]> = this.scully.available$
+    .pipe(
+      latestBlogs ()
+    )
+
   constructor(
     private router: Router,
     private scully: ScullyRoutesService
@@ -18,17 +24,6 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.links$.subscribe(links => {
-    //   console.log(links);
-    // });
-
-    this.scully.available$
-      .pipe(
-        latestBlog()
-      )
-      .subscribe(r => {
-        this.router.navigate([r.route]);
-      })
   }
 
 }

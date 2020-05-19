@@ -4,7 +4,48 @@
 
   <div id="main">
 
-    welcome, just a second... redirecting to latest article...
+    <!-- Posts List -->
+    <section>
+
+      <div class="mini-posts" *ngFor="let blog of links$ | async">
+
+          <article class="mini-post">
+
+            <header>
+              <h3><a [routerLink]="[blog.route]">{{blog.title}}</a></h3>
+
+              <div class="tags">
+                <ul class="stats">
+                  <li *ngFor="let tag of blog.tags">
+                    <span class="icon solid fa-tag">{{tag}}</span>
+                  </li>
+                </ul>
+              </div>
+
+              <time class="published" [attr.datetime]="blog.date">{{blog.date | date:'longDate'}}</time>
+            </header>
+
+          </article>
+
+      </div>
+
+
+<!--      <ul class="posts">-->
+
+<!--        <li *ngFor="let blog of links$ | async">-->
+<!--          <article>-->
+<!--            <header>-->
+<!--              <h3><a [routerLink]="[blog.route]">{{blog.title}}</a></h3>-->
+<!--              <time class="published" [attr.datetime]="blog.date">{{blog.date | date:'longDate'}}</time>-->
+<!--            </header>-->
+<!--          </article>-->
+<!--        </li>-->
+
+<!--      </ul>-->
+
+
+
+    </section>
 
 <!--      <ul>-->
 <!--        <li *ngFor="let page of links$ | async">{{ page.route }}</li>-->
@@ -13,6 +54,6 @@
 
   </div>
 
-  <app-sidebar></app-sidebar>
+  <app-sidebar [showArticles]="false"></app-sidebar>
 
 </div>
