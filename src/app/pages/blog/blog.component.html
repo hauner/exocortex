@@ -15,18 +15,28 @@
           </div>
           <div class="meta">
             <time class="published" [attr.datetime]="current.date">{{current.date | date:'fullDate'}}</time>
+
+            <div class="tags">
+              <ul class="stats">
+                <li *ngFor="let tag of current.tags">
+                  <span class="icon solid fa-tag">{{tag}}</span>
+                </li>
+              </ul>
+            </div>
+
           </div>
         </header>
 
         <scully-content></scully-content>
 
         <footer>
+          <!--
           <ul class="stats">
             <li *ngFor="let tag of current.tags">
-<!--              <a href="#" class="icon solid fa-tag">{{tag}}</a>-->
               <span class="icon solid fa-tag">{{tag}}</span>
             </li>
           </ul>
+          -->
         </footer>
       </article>
 

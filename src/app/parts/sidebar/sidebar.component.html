@@ -35,7 +35,16 @@
       <li *ngFor="let blog of links$ | async">
         <article>
           <header>
-            <h3><a [routerLink]="[blog.route]">{{blog.title}}</a></h3>
+            <h3 style="margin-bottom: 0"><a [routerLink]="[blog.route]">{{blog.title}}</a></h3>
+
+            <div class="tags">
+              <ul class="stats">
+                <li *ngFor="let tag of blog.tags">
+                  <span class="icon solid fa-tag">{{tag}}</span>
+                </li>
+              </ul>
+            </div>
+
             <time class="published" [attr.datetime]="blog.date">{{blog.date | date:'longDate'}}</time>
           </header>
         </article>
