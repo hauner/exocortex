@@ -1,5 +1,5 @@
 ---
-date: 2020-05-18
+date: 2020-05-05
 title: 'modifying <body> css classes in angular'
 description: 'a simple solution for modifying css <class>es of the <body> element in an angular app.'
 published: true

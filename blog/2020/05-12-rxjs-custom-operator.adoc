@@ -1,5 +1,5 @@
 ---
-date: 2020-05-19
+date: 2020-05-12
 title: 'creating a custom rxjs operator'
 description: 'extracting a custom rxjs operator from an observable pipe chain.'
 published: true

@@ -1,7 +1,7 @@
 ---
-date: 2020-05-14
-title: Blog 1!
-description: this is a short test article descrption!
+date: 2020-04-28
+title: Test!
+description: this is a test article description!
 published: true
 tags:
     - foo
@@ -12,7 +12,7 @@ tags:
 
 == FIRST
 
-a source code snippet... add styling with prismjs.
+some code:
 
 [source,java]
 ----
@@ -36,9 +36,11 @@ public interface Api {
 }
 ----
 
+an image
+
 image::avatar-480x480.png[avatar]
 
-icon:
+an icon:
 
 ++++
 <i class="fab fa-angular"></i>
