@@ -16,3 +16,20 @@ a.oap {
 a.oap img {
   width: 2.5rem;
 }
+
+@media screen and (max-width: 980px) {
+
+  #header .links {
+    display: block;
+  }
+
+}
+
+@media screen and (max-width: 736px) {
+
+  li.hide {
+    display: none !important;
+  }
+
+}
+
