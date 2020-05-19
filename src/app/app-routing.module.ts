@@ -12,6 +12,9 @@ const routes: Routes = [
   }, {
     path: 'blog',
     loadChildren: () => import('./pages/blog/blog.module').then(m => m.BlogModule)
+  }, {
+    path: 'tags',
+    loadChildren: () => import('./pages/tags/tags.module').then(m => m.TagsModule)
   }
 ];
 

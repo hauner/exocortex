@@ -11,5 +11,10 @@ exports.config = {
                 folder: "./blog"
             }
         },
-    }
+    },
+    extraRoutes: [
+        '/tags',
+        '/tags/angular',
+        '/tags/rxjs'
+    ]
 };

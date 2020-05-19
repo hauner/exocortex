@@ -1,4 +1,5 @@
-import { ScullyConfig } from '@scullyio/scully';
+import {ScullyConfig} from '@scullyio/scully';
+
 export const config: ScullyConfig = {
   projectRoot: "./src",
   projectName: "blog",
@@ -10,5 +11,10 @@ export const config: ScullyConfig = {
         folder: "./blog"
       }
     },
-  }
+  },
+  extraRoutes: [
+    '/tags',
+    '/tags/angular',
+    '/tags/rxjs'
+  ]
 };
