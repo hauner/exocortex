@@ -1,7 +1,7 @@
 ---
 date: 2020-05-19
-title: 'RxJs: custom operator'
-description: 'writing a simple custom rxjs operator.'
+title: 'creating a custom rxjs operator'
+description: 'extracting a custom rxjs operator from an observable pipe chain.'
 published: true
 tags:
   - rxjs
@@ -73,3 +73,4 @@ export function latest (): OperatorFunction<Article[], Article> {
 
 ----
 
+That's all. pass:[<i class="far fa-smile"></i>]
