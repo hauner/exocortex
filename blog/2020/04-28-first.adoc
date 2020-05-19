@@ -38,7 +38,7 @@ public interface Api {
 
 an image
 
-image::avatar-480x480.png[avatar]
+image::avatar-480x480.png[avatar,50]
 
 an icon:
 
