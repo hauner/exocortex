@@ -1,0 +1,40 @@
+<div id="wrapper">
+
+  <app-header></app-header>
+
+  <div id="main">
+
+    <!-- tag articles -->
+    <section>
+
+      <div class="mini-posts">
+
+          <article class="mini-post" *ngFor="let blog of tagLinks$ | async">
+
+            <header>
+              <h3><a [routerLink]="[blog.route]">{{blog.title}}</a></h3>
+
+              <div class="tags">
+                <ul class="stats">
+                  <li *ngFor="let tag of blog.tags">
+                    <a [routerLink]="['/tags', tag]">
+                      <span class="icon solid fa-tag">{{tag}}</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              <time class="published" [attr.datetime]="blog.date">{{blog.date | date:'longDate'}}</time>
+            </header>
+
+          </article>
+
+      </div>
+
+    </section>
+
+  </div>
+
+  <app-sidebar [showArticles]="true"></app-sidebar>
+
+</div>
