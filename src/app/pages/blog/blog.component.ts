@@ -69,6 +69,10 @@ export class BlogComponent implements OnInit, AfterViewChecked {
         )
       )
       .subscribe((routes: ScullyRoute[]) => {
+          if (this.current == null) {
+            return;
+          }
+
           if (routes[0].route == this.current.route) {
             this.routeNext = routes[1];
           } else if (routes[1].route == this.current.route) {
