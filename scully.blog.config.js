@@ -1,13 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var tags_1 = require("./plugins/tags");
-var blog_1 = require("./plugins/blog");
 exports.config = {
     projectRoot: "./src",
     projectName: "blog",
-    outDir: './docs',
+    outDir: './dist/static',
     defaultPostRenderers: [
-        blog_1.HeaderRenderer
+    // HeaderRenderer
     ],
     routes: {
         '/blog/:slug': {

@@ -5,9 +5,9 @@ import {HeaderRenderer} from './plugins/blog';
 export const config: ScullyConfig = {
   projectRoot: "./src",
   projectName: "blog",
-  outDir: './docs',
+  outDir: './dist/static',
   defaultPostRenderers: [
-    HeaderRenderer
+    // HeaderRenderer
   ],
   routes: {
     '/blog/:slug': {
