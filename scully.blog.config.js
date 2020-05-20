@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+require("./plugins/tags");
 exports.config = {
     projectRoot: "./src",
     projectName: "blog",
@@ -9,12 +10,10 @@ exports.config = {
             type: 'contentFolder',
             slug: {
                 folder: "./blog"
-            }
+            },
         },
+        '/tags/:tag': {
+            type: 'tags'
+        }
     },
-    extraRoutes: [
-        '/tags',
-        '/tags/angular',
-        '/tags/rxjs'
-    ]
 };

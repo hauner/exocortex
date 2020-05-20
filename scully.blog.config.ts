@@ -1,4 +1,6 @@
 import {ScullyConfig} from '@scullyio/scully';
+import './plugins/tags';
+
 
 export const config: ScullyConfig = {
   projectRoot: "./src",
@@ -9,12 +11,10 @@ export const config: ScullyConfig = {
       type: 'contentFolder',
       slug: {
         folder: "./blog"
-      }
+      },
     },
+    '/tags/:tag': {
+      type: 'tags'
+    }
   },
-  extraRoutes: [
-    '/tags',
-    '/tags/angular',
-    '/tags/rxjs'
-  ]
 };
