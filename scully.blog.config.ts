@@ -1,11 +1,14 @@
 import {ScullyConfig} from '@scullyio/scully';
-import './plugins/tags';
-
+import {TagsPlugin} from './plugins/tags';
+import {HeaderRenderer} from './plugins/blog';
 
 export const config: ScullyConfig = {
   projectRoot: "./src",
   projectName: "blog",
   outDir: './docs',
+  defaultPostRenderers: [
+    HeaderRenderer
+  ],
   routes: {
     '/blog/:slug': {
       type: 'contentFolder',
@@ -14,7 +17,7 @@ export const config: ScullyConfig = {
       },
     },
     '/tags/:tag': {
-      type: 'tags'
+      type: TagsPlugin
     }
-  },
+  }
 };
