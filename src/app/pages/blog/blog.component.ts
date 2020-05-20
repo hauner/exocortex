@@ -61,7 +61,7 @@ export class BlogComponent implements OnInit, AfterViewChecked {
         first ()
       )
       .subscribe(r => {
-        // console.log('init route', r);
+        console.log('init route', r);
         this.current = r;
       });
 

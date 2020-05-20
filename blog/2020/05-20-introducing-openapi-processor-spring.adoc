@@ -1,0 +1,11 @@
+---
+date: 2020-05-20
+title: 'introducing openapi-processor-spring'
+description: 'openapi-processor-spring is an OpenAPI interface & model only java code generator for Spring Boot.'
+published: true
+tags:
+  - openapi
+  - spring-boot
+---
+
+TODO

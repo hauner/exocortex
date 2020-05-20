@@ -8,9 +8,7 @@
 
       <article class="post">
 
-        <!--
         current: {{current | json}} running: {{isRunning}} generated: {{isGenerated}}
-        -->
 
         <header *ngIf="current != null; else nodata">
           <div class="title">
@@ -33,9 +31,7 @@
           </div>
         </header>
 
-        <ng-template #nodata>
-          ...
-        </ng-template>
+        <ng-template #nodata>...</ng-template>
 
         <div>
           <scully-content></scully-content>
