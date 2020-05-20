@@ -4,12 +4,15 @@
 
   <div id="main">
 
-    <!-- single blog -->
-    <div *ngFor="let current of current$ | async">
+    <div>
 
       <article class="post">
 
-        <header>
+        <!--
+        current: {{current | json}} running: {{isRunning}} generated: {{isGenerated}}
+        -->
+
+        <header *ngIf="current != null; else nodata">
           <div class="title">
             <h2>{{current.title}}</h2>
             <p>{{current.description}}</p>
@@ -30,7 +33,13 @@
           </div>
         </header>
 
-        <scully-content></scully-content>
+        <ng-template #nodata>
+          ...
+        </ng-template>
+
+        <div>
+          <scully-content></scully-content>
+        </div>
 
         <footer>
           <!--

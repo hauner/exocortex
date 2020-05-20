@@ -1,9 +1,14 @@
 import {AfterViewChecked, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Location} from '@angular/common';
-import {ScullyRoute, ScullyRoutesService} from "@scullyio/ng-lib";
+import {
+  isScullyGenerated,
+  isScullyRunning,
+  ScullyRoute,
+  ScullyRoutesService
+} from "@scullyio/ng-lib";
 import {from, Observable, Subscription} from "rxjs";
-import {flatMap, map, pairwise, switchMap, tap} from 'rxjs/operators';
+import {filter, first, flatMap, map, pairwise, switchMap, tap} from 'rxjs/operators';
 import {HighlightService} from "../../highlight.service";
 
 
@@ -15,15 +20,17 @@ import {HighlightService} from "../../highlight.service";
 })
 export class BlogComponent implements OnInit, AfterViewChecked {
 
-  current$: Observable<ScullyRoute[]> = this.scully.getCurrent()
-    .pipe(
-      map(r => [r])
-    );
+  isRunning = isScullyRunning();
+  isGenerated = isScullyGenerated();
 
+  // current$: Observable<ScullyRoute> = this.scully.getCurrent()
+  //   .pipe(
+  //     tap (c => console.log('pre-init', c)),
+  //     first()
+  //   );
 
-  sub: Subscription;
-
-  // current: ScullyRoute;
+  // sub: Subscription;
+  current: ScullyRoute;
   routePrev: ScullyRoute;
   routeNext: ScullyRoute;
 
@@ -32,9 +39,12 @@ export class BlogComponent implements OnInit, AfterViewChecked {
     private scully: ScullyRoutesService,
     private highlightService: HighlightService
   ) {
+    // console.log('construct BlogComponent()');
   }
 
   ngOnInit() {
+    this.init();
+
     this.location.onUrlChange((url) => {
       // console.log('location', url);
       this.init();
@@ -46,11 +56,20 @@ export class BlogComponent implements OnInit, AfterViewChecked {
   }
 
   private init() {
-    // this.scully.reload();
-    this.current$ = this.scully.getCurrent()
-        .pipe(
-          map(r => [r])
-        );
+    this.scully.getCurrent ()
+      .pipe (
+        first ()
+      )
+      .subscribe(r => {
+        // console.log('init route', r);
+        this.current = r;
+      });
+
+    // this.current$ = this.scully.getCurrent()
+    //     .pipe(
+    //       tap (c => console.log('init: current', c)),
+    //       filter(c => c != null)
+    //     );
   }
 
   /*
