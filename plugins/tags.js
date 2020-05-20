@@ -17,6 +17,14 @@ async function tagsPlugin(route, config) {
       route: '/tags/rxjs',
       type: TagsPluginName
     },
+    {
+      route: '/tags/openapi',
+      type: TagsPluginName
+    },
+    {
+      route: '/tags/spring-boot',
+      type: TagsPluginName
+    },
   ];
 }
 
