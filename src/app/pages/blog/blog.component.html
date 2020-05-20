@@ -4,7 +4,8 @@
 
   <div id="main">
 
-    <div *ngIf="current">
+    <!-- single blog -->
+    <div *ngFor="let current of current$ | async">
 
       <article class="post">
 
@@ -43,6 +44,7 @@
       </article>
 
       <!-- Pagination -->
+      <!--
       <ul class="actions pagination">
         <li>
           <a *ngIf="routePrev" [routerLink]="[routePrev.route]" class="button large previous">Previous Article - {{routePrev.date | date:'dd.MM.yy'}}</a>
@@ -54,6 +56,7 @@
           <a *ngIf="!routeNext" class="button large next disabled">No Previous Article</a>
         </li>
       </ul>
+      -->
 
     </div>
 

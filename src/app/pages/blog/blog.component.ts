@@ -2,7 +2,7 @@ import {AfterViewChecked, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {ScullyRoute, ScullyRoutesService} from "@scullyio/ng-lib";
-import {from, Subscription} from "rxjs";
+import {from, Observable, Subscription} from "rxjs";
 import {flatMap, map, pairwise, switchMap, tap} from 'rxjs/operators';
 import {HighlightService} from "../../highlight.service";
 
@@ -15,9 +15,15 @@ import {HighlightService} from "../../highlight.service";
 })
 export class BlogComponent implements OnInit, AfterViewChecked {
 
+  current$: Observable<ScullyRoute[]> = this.scully.getCurrent()
+    .pipe(
+      map(r => [r])
+    );
+
+
   sub: Subscription;
 
-  current: ScullyRoute;
+  // current: ScullyRoute;
   routePrev: ScullyRoute;
   routeNext: ScullyRoute;
 
@@ -30,16 +36,24 @@ export class BlogComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     this.location.onUrlChange((url) => {
-      this.initCurrent();
+      console.log('location', url);
+      this.init();
     });
-
-    this.initCurrent();
   }
 
   ngAfterViewChecked() {
     this.highlightService.highlightAll();
   }
 
+  private init() {
+    // this.scully.reload();
+    this.current$ = this.scully.getCurrent()
+        .pipe(
+          map(r => [r])
+        );
+  }
+
+  /*
   private initCurrent () {
     if (this.sub != null) {
       this.sub.unsubscribe();
@@ -48,11 +62,12 @@ export class BlogComponent implements OnInit, AfterViewChecked {
     this.sub = this.scully.getCurrent ()
       .pipe(
         tap(r => {
+          console.log('current', r);
           this.current = r;
           this.routePrev = null;
           this.routeNext = null;
         }),
-        switchMap(() => this.scully.available$
+        flatMap(() => this.scully.available$
             .pipe(
               map (routes => {
                 return routes
@@ -79,6 +94,6 @@ export class BlogComponent implements OnInit, AfterViewChecked {
             this.routePrev = routes[0];
           }
       })
-  }
+  }*/
 
 }

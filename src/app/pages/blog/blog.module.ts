@@ -6,7 +6,9 @@ import {BlogComponent} from './blog.component';
 import {PartsModule} from '../../parts/parts.module';
 
 @NgModule({
-  declarations: [BlogComponent],
+  declarations: [
+    BlogComponent
+  ],
   imports: [
     CommonModule,
     BlogRoutingModule,
