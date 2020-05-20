@@ -36,7 +36,7 @@ export class BlogComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     this.location.onUrlChange((url) => {
-      console.log('location', url);
+      // console.log('location', url);
       this.init();
     });
   }
