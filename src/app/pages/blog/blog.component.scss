@@ -1,7 +1,19 @@
-//h1 {
-//  color:rgb(51, 6, 37);
-//  background-color: rgb(248, 211, 236);
-//  padding: 5px;
-//  border-radius: 5px;
-//  width: fit-content;
-//}
+.published.stacked {
+  text-align: center;
+}
+
+.stats.stacked {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+
+  li {
+    width: 100%;
+    text-align: center;
+    border-left: none;
+    line-height: 2;
+    margin: 0;
+    padding: 0;
+  }
+}

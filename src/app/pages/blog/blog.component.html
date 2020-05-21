@@ -8,7 +8,9 @@
 
       <article class="post">
 
+        <!--
         current: {{current | json}} running: {{isRunning}} generated: {{isGenerated}}
+        -->
 
         <header *ngIf="current != null; else nodata">
           <div class="title">
@@ -16,10 +18,10 @@
             <p>{{current.description}}</p>
           </div>
           <div class="meta">
-            <time class="published" [attr.datetime]="current.date">{{current.date | date:'dd. MMM yyyy'}}</time>
+            <time class="published stacked" [attr.datetime]="current.date">{{current.date | date:'dd. MMM yyyy'}}</time>
 
             <div class="tags">
-              <ul class="stats">
+              <ul class="stats stacked">
                 <li *ngFor="let tag of current.tags">
                   <a [routerLink]="['/tags', tag]">
                     <span class="icon solid fa-tag">{{tag}}</span>
