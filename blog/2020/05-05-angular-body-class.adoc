@@ -1,14 +1,14 @@
 ---
 date: 2020-05-05
-title: 'modifying <body> css classes in angular'
-description: 'a simple solution for modifying css <class>es of the <body> element in an angular app.'
+title: 'Modifying <body> css classes in Angular'
+description: 'a simple Solution for modifying the css <class>es of the <body> element in an angular app.'
 published: true
 tags:
   - angular
 ---
 
 Modifying the css `<class>`-es on the `<body>` element is not straight forward. The `<body>` element
-is the parent of the angular app. It is not in a component template we can easily modify:
+is by default the parent of the angular app. It is not in a component template we can easily modify:
 
 
 [source,html]
@@ -23,7 +23,8 @@ is the parent of the angular app. It is not in a component template we can easil
 </body>
 ----
 
-To access the `<body>` element inject the `Document` and then use a `Renderer2` to modify it:
+One solution would be to move it into the root template. Another solution is to access the `<body>`
+element by injecting the `Document` and then using a `Renderer2` to modify it:
 
 
 [source,typescript]

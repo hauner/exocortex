@@ -1,18 +1,18 @@
 ---
 date: 2020-05-12
-title: 'creating a custom rxjs operator'
-description: 'extracting a custom rxjs operator from an observable pipe chain.'
+title: 'Extracting a custom RxJS operator'
+description: 'extracting a custom RxJS operator from an observable pipe chain.'
 published: true
 tags:
   - rxjs
   - angular
 ---
 
-Using multiple `pipe` operators on an `Observable` to do *one thing* makes it harder to understand.
+Using multiple `pipe` operators on an `Observable` to do *one thing* can make it harder to understand.
 This is the same problem as in "normal" code.
 
 With normal code we extract a method if the steps involved don't fit the abstraction level of the
-code we are working at. We can do the same with an `Observable` by extracting the steps into a custom
+code we are working on. We can do the same with an `Observable` by extracting the steps into a custom
 rxjs operator.
 
 Lets say we have an `article$` observable: `Observable<Article[]>`. It provides a list of all blog
@@ -72,5 +72,8 @@ export function latest (): OperatorFunction<Article[], Article> {
 }
 
 ----
+
+It is also easier to write marble tests for this.
+
 
 That's it. pass:[<i class="far fa-smile"></i>]
