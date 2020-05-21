@@ -1,11 +1,15 @@
 ---
 date: 2020-04-28
 title: Test!
-description: this is a test article description!
-published: false
+description: 'this is a test article description!'
+published: true
 tags:
-    - foo
-    - bar
+  - foo
+  - bar
+
+hidden: true
+slugs:
+  - test
 ---
 :imagesdir: assets
 
