@@ -1,3 +1,5 @@
+// center stacked tags
+
 .published.stacked {
   text-align: center;
 }
@@ -16,4 +18,20 @@
     margin: 0;
     padding: 0;
   }
+}
+
+
+// override uppercase title
+
+.post > header .title h2 {
+  font-weight: 900;
+  font-size: 1.75em;
+  text-transform: none;
+  letter-spacing: .1em;
+}
+
+header p {
+  font-size: .9em;
+  text-transform: none;
+  letter-spacing: .1em;
 }
