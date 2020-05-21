@@ -3,6 +3,7 @@ import {ActivatedRoute, ParamMap} from '@angular/router';
 import {ScullyRoute, ScullyRoutesService} from '@scullyio/ng-lib';
 import {map} from 'rxjs/operators';
 import {EMPTY, Observable} from 'rxjs';
+import {filterPublishedBlogs} from '../../../operators/blog';
 
 @Component({
   selector: 'app-tag',
@@ -28,11 +29,11 @@ export class TagComponent implements OnInit {
 
         this.tagLinks$ = this.scully.available$
           .pipe (
+            filterPublishedBlogs(),
             map (routes => {
               return routes
                 .filter (r => r.tags != null)
                 .filter (r => r.tags.indexOf(tag) >= 0)
-                .filter (r => r.published != null && r.published)
                 .sort((l, r) => r.date.localeCompare (l.date));
             })
           );

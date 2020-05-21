@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Observable} from "rxjs";
-import {ScullyRoute, ScullyRoutesService} from "@scullyio/ng-lib";
-import {latestBlogs} from "../../operators/latest-blog";
+import {Observable} from 'rxjs';
+import {ScullyRoute, ScullyRoutesService} from '@scullyio/ng-lib';
+import {latestBlogs} from '../../operators/blog';
 
 @Component({
   selector: 'app-sidebar',

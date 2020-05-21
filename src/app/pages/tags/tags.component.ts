@@ -3,6 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {ScullyRoutesService} from '@scullyio/ng-lib';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
+import {filterPublishedBlogs} from '../../operators/blog';
 
 @Component({
   selector: 'app-tags',
@@ -13,6 +14,7 @@ export class TagsComponent implements OnInit {
 
   tags$: Observable<string[]> = this.scully.available$
     .pipe (
+      filterPublishedBlogs(),
       map (routes => {
         const tags = new Set<string> ();
 
