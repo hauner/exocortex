@@ -7,7 +7,7 @@ import {
   ScullyRoute,
   ScullyRoutesService
 } from "@scullyio/ng-lib";
-import {from, Observable, Subscription} from "rxjs";
+import {from, Observable, of, Subscription} from "rxjs";
 import {filter, first, flatMap, map, pairwise, switchMap, tap} from 'rxjs/operators';
 import {HighlightService} from "../../highlight.service";
 
@@ -23,12 +23,6 @@ export class BlogComponent implements OnInit, AfterViewChecked {
   isRunning = isScullyRunning();
   isGenerated = isScullyGenerated();
 
-  // current$: Observable<ScullyRoute> = this.scully.getCurrent()
-  //   .pipe(
-  //     tap (c => console.log('pre-init', c)),
-  //     first()
-  //   );
-
   // sub: Subscription;
   current: ScullyRoute;
   routePrev: ScullyRoute;
@@ -39,14 +33,12 @@ export class BlogComponent implements OnInit, AfterViewChecked {
     private scully: ScullyRoutesService,
     private highlightService: HighlightService
   ) {
-    // console.log('construct BlogComponent()');
   }
 
   ngOnInit() {
     this.init();
 
     this.location.onUrlChange((url) => {
-      // console.log('location', url);
       this.init();
     });
   }
@@ -56,7 +48,7 @@ export class BlogComponent implements OnInit, AfterViewChecked {
   }
 
   private init() {
-    this.scully.getCurrent ()
+    this/*.scully*/.getCurrent ()
       .pipe (
         first ()
       )
@@ -64,12 +56,29 @@ export class BlogComponent implements OnInit, AfterViewChecked {
         console.log('init route', r);
         this.current = r;
       });
+  }
 
-    // this.current$ = this.scully.getCurrent()
-    //     .pipe(
-    //       tap (c => console.log('init: current', c)),
-    //       filter(c => c != null)
-    //     );
+  /**
+   * scully doesn't handle <base href=..>
+   */
+  getCurrent(): Observable<ScullyRoute> {
+    if (!location) {
+      /** probably not in a browser, no current location available */
+      return of();
+    }
+
+    const baseRef = '/test-blog';
+
+    const curLocation = decodeURI(location.pathname).trim();
+    return this.scully.available$.pipe(
+      map(list =>
+        list.find(r =>
+            curLocation === r.route.trim()
+          || curLocation === (baseRef + r.route.trim())
+          || (r.slugs && Array.isArray(r.slugs) && r.slugs.find(slug => curLocation.endsWith(slug.trim())))
+        )
+      )
+    );
   }
 
   /*
