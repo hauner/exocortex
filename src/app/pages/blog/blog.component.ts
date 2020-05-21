@@ -1,15 +1,10 @@
 import {AfterViewChecked, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Location} from '@angular/common';
-import {
-  isScullyGenerated,
-  isScullyRunning,
-  ScullyRoute,
-  ScullyRoutesService
-} from "@scullyio/ng-lib";
+import {isScullyGenerated, isScullyRunning, ScullyRoute, ScullyRoutesService} from "@scullyio/ng-lib";
 import {from, Observable, of, Subscription} from "rxjs";
 import {filter, first, flatMap, map, pairwise, switchMap, tap} from 'rxjs/operators';
-import {HighlightService} from "../../highlight.service";
+import {HighlightService} from '../../highlight.service';
 
 
 @Component({
@@ -69,15 +64,16 @@ export class BlogComponent implements OnInit, AfterViewChecked {
     const baseRef = '/test-blog';
 
     const curLocation = decodeURI(location.pathname).trim();
-    return this.scully.available$.pipe(
-      map(list =>
-        list.find(r =>
-            curLocation === r.route.trim()
-          || curLocation === (baseRef + r.route.trim())
-          || (r.slugs && Array.isArray(r.slugs) && r.slugs.find(slug => curLocation.endsWith(slug.trim())))
+    return this.scully.available$
+      .pipe (
+        map (list =>
+          list.find (r =>
+            curLocation === r.route.trim ()
+            || curLocation === (baseRef + r.route.trim ())
+            || (r.slugs && Array.isArray (r.slugs) && r.slugs.find (slug => curLocation.endsWith (slug.trim ())))
+          )
         )
-      )
-    );
+      );
   }
 
   /*

@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
-import {ScullyRoute, ScullyRoutesService} from "@scullyio/ng-lib";
-import {Observable} from "rxjs";
-import {latestBlogs} from "../../operators/latest-blog";
+import {Router} from '@angular/router';
+import {ScullyRoute, ScullyRoutesService} from '@scullyio/ng-lib';
+import {Observable} from 'rxjs';
+import {latestBlogs} from '../../operators/blog';
 
 
 @Component({
