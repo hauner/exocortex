@@ -26,3 +26,14 @@ ul.posts article header h3 {
   letter-spacing: 0.1em;
 }
 
+
+// asciidoctor
+
+.imageblock.text-center {
+  display: flex;
+  justify-content: center;
+}
+
+.footnote {
+  font-size: smaller;
+}
