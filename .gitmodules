@@ -1,0 +1,3 @@
+[submodule "docs-hauner"]
+	path = docs-hauner
+	url = https://github.com/hauner/hauner.github.io.git
