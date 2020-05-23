@@ -61,7 +61,7 @@ export class BlogComponent implements OnInit, AfterViewChecked {
       return of();
     }
 
-    const baseRef = '/test-blog';
+    const baseRef = '/blog';
 
     const curLocation = decodeURI(location.pathname).trim();
     return this.scully.available$
