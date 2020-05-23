@@ -1,3 +1,5 @@
+#!/bin/sh
+
 set -x
 
 ng build --prod --output-hashing none
