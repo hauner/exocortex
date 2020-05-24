@@ -25,6 +25,14 @@ async function tagsPlugin(route, config) {
       route: '/tags/spring-boot',
       type: TagsPluginName
     },
+    {
+      route: '/tags/java',
+      type: TagsPluginName
+    },
+    {
+      route: '/tags/macos',
+      type: TagsPluginName
+    },
   ];
 }
 

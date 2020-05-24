@@ -1,0 +1,33 @@
+---
+date: 2020-05-24
+title: java on macos
+description: 'where is it, which version is running in the terminal?'
+published: true
+tags:
+  - java
+  - macos
+---
+
+the standard location for JDKs is:
+
+    /Library/Java/JavaVirtualMachines
+
+IntelliJ IDEA JDK downloads are here:
+
+    /Users/<user>/Library/Java/JavaVirtualMachines
+
+
+`java_home` shows the JDKs in both locations:
+
+ > /usr/libexec/java_home -V
+
+----
+ Matching Java Virtual Machines (4):
+     14.0.1, x86_64:	"OpenJDK 14.0.1"	/Users/<user>/Library/Java/...
+     11.0.2, x86_64:	"Java SE 11.0.2"	/Library/Java/...
+     1.8.0_252, x86_64:	"OpenJDK 8"	/Users/<user>/Library/Java/...
+     1.8.0_201, x86_64:	"Java SE 8"	/Library/Java/...
+
+ /Users/<user>/Library/Java/JavaVirtualMachines/adopt-openjdk-14.0.1/Contents/Home
+----
+
