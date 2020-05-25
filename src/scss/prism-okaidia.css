@@ -2,7 +2,6 @@
 
 code[class*="language-"] {
     border: none;
-    font-size: 92% !important;
 }
 
 /* improve & fix toolbar layout */
@@ -29,4 +28,8 @@ div.code-toolbar>.toolbar .toolbar-item button {
 :not(pre) > code[class*="language-"],
 pre[class*="language-"] {
     background: #272822 !important;
+}
+
+code[class*="language-"], pre[class*="language-"] {
+  font-size: 0.875em;
 }

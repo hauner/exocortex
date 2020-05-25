@@ -13,17 +13,17 @@ $fa-font-path: '/assets/webfonts';
 
 @import "scss/prism-okaidia.css";
 
+h2, h3 {
+  text-transform: none;
+  letter-spacing: 0;
+}
 
 ul.posts article header h3 {
-  font-size: .9em;
-  text-transform: none;
-  letter-spacing: 0.0em;
+    font-size: 0.875em;
 }
 
 .mini-post header h3 {
-  font-size: .9em;
-  text-transform: none;
-  letter-spacing: 0.0em;
+    font-size: 0.875em;
 }
 
 
@@ -43,5 +43,13 @@ p {
 }
 
 li p {
-    margin: 0 0 1rem;
+    margin: 0 0 0.5rem;
+}
+
+pre {
+  font-size: 0.875em;
+}
+
+code {
+  font-size: 0.875em;
 }
