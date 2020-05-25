@@ -19,9 +19,8 @@ IntelliJ IDEA JDK downloads are here:
 
 `java_home` shows the JDKs in both locations:
 
- > /usr/libexec/java_home -V
-
 ----
+> /usr/libexec/java_home -V
  Matching Java Virtual Machines (4):
      14.0.1, x86_64:	"OpenJDK 14.0.1"	/Users/<user>/Library/Java/...
      11.0.2, x86_64:	"Java SE 11.0.2"	/Library/Java/...
@@ -31,3 +30,10 @@ IntelliJ IDEA JDK downloads are here:
  /Users/<user>/Library/Java/JavaVirtualMachines/adopt-openjdk-14.0.1/Contents/Home
 ----
 
+Last line is the active version in the terminal. It is the default response if it runs without any
+parameter.
+
+----
+> /usr/libexec/java_home
+ /Users/<user>/Library/Java/JavaVirtualMachines/adopt-openjdk-14.0.1/Contents/Home
+----
