@@ -16,6 +16,7 @@ import 'prismjs/components/prism-markup';
 import 'prismjs/components/prism-yaml';
 import 'prismjs/components/prism-bash';
 import 'prismjs/components/prism-java';
+import 'prismjs/components/prism-groovy';
 
 declare var Prism: any;
 
