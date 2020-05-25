@@ -1,0 +1,128 @@
+---
+date: 2020-05-25
+title: 'openapi-processor-spring'
+description: 'openapi-processor-spring is an OpenAPI interface & model Java code generator for Spring Boot.'
+published: true
+tags:
+  - openapi
+  - spring-boot
+---
+:imagesdir: assets
+:openapi: https://www.openapis.org/
+:springboot: https://spring.io/projects/spring-boot
+:oap-docs: https://hauner.github.io/openapi-processor
+:oap-gradle: https://hauner.github.io/openapi-processor/gradle
+:oap-play: https://openapi-processor-playground.appspot.com
+
+link:{oap-docs}[*openapi-processor-spring*] (or short: _oap-spring_) is an link:{openapi}[OpenAPI]
+interface & model Java code generator for link:{springboot}[Spring Boot]. It is generating code
+for annotation based (MVC) controllers.
+footnote:[oap-spring has experimental support for `Mono<>` and `Flux<>` like wrappers that makes it
+possible to use WebFlux with annotations.]
+
+Its goal is to provide a smooth & straight forward mapping from an OpenAPI yaml description to
+Spring Boot Java code:
+
+* allowing common Spring Boot code patterns, like passing additional parameters (for example
+`HttpServletRequest` or `HandlerMethodArgumentResolver`) to controller endpoints without adding it
+to the OpenAPI description
+
+* providing an easy mapping to existing Java types with (simple) generic support
+
+* getting out of the way if the processor does not create the expected code for single endpoints.
+
+
+You will need a gradle based spring boot project and the link:{oap-gradle}[oap-gradle plugin]
+to use oap-spring.
+
+See the quick overview below for how it works or check the following links:
+
+* link:{oap-docs}[Learn more about openapi-processor-spring, window="_blank"].
+* link:{oap-play}[Try the openapi-processor playground, window="_blank"].
+
+Current 1.0 milestone releases are:
+
+* `com.github.hauner.openapi:openapi-processor-spring:1.0.0.M14`
+* `com.github.hauner.openapi:openapi-processor-gradle:1.0.0.M7`
+
+
+== usage overview
+
+Here is a quick usage overview. A more detailed description is available in the link:{oap-docs}[documentation].
+
+=== api & processor configuration
+
+First, we put an `openapi.yaml` with our OpenAPI description in the `src/api` folder of our project.
+We put another yaml file `mapping.yaml` into the same place. This is the configuration of the processor.
+
+    /src/api/
+       openapi.yaml
+       mapping.yaml
+
+the minimum content of the `mapping.yaml` is the target package name for the code the processor
+generates. It will create two sub-packages `api` and `model` for the endpoint interfaces and the
+model classes.
+
+[source,yaml]
+----
+options:
+  package-name: com.github.hauner.openapi
+----
+
+=== gradle configuration
+
+To enable the processor we add the following snippets to the `build.gradle`:
+
+* add the oap-gradle plugin
+
+[source,groovy]
+----
+plugins {
+    id 'com.github.hauner.openapi-processor' version '1.0.0.M7'
+}
+----
+
+* next is the plugin configuration for oap-spring. `apiPath`, `mapping` & `targetDir` configure
+the paths of the input files, and the processor configuration file. `processor` is like a
+dependency in the standard gradle `dependencies` block and tells the plugin which processor to
+use. The plugin will create a `processSpring` task to run the given `processor`.
+
+[source,groovy]
+----
+openapiProcessor {
+    apiPath "${projectDir}/src/api/openapi.yaml"
+
+    spring {
+        processor 'com.github.hauner.openapi:openapi-processor-spring:1.0.0.M14'
+        mapping "${projectDir}/src/api/mapping.yaml"
+        targetDir "${projectDir}/build/openapi"
+    }
+
+}
+----
+
+* last step is to include the generated files into the build. With standard gradle configurations
+we add the `targetDir` to the `java` source set so that gradle will compile them. To automatically
+re-generate the api when necessary we add the `processSpring` task as a dependency to the
+`compileJava` task.
+
+[source,groovy]
+----
+sourceSets {
+    main {
+        java {
+            srcDir "${projectDir}/build/openapi"
+        }
+    }
+}
+
+compileJava.dependsOn ('processSpring')
+----
+
+Now when we change `openapi.yaml` or `mapping.yaml` gradle automatically runs the processor to
+update the api code before it is compiling the rest of our code.
+
+That's it. pass:[<i class="far fa-smile"></i>]
+
+image::openapi-processor-spring@400x200.png[logo,180,align="center",link={oap-docs}]
+
