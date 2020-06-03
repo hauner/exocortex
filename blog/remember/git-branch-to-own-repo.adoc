@@ -1,0 +1,56 @@
+---
+date: 2020-06-02
+title: 'create new git repository from a branch'
+description: 'how to copy a git branch to its own git repository as master branch'
+published: true
+tags:
+  - git
+---
+
+The following steps create a new git repository with a master branch from a branch of a source repository.
+
+The steps refer to a source repository with the name `source-clone` and a source branch with the name
+`source-branch`. After finishing the steps there is a `new-clone` clone from the new repository
+`new-bare-repo` with a master branch including the full history.
+
+. create new repository folder & init git in new repository
++
+[source,shell]
+----
+> mkdir new-bare-repo
+> git --bare init new-bare-repo
+----
++
+`--bare` creates a repository without a workspace, otherwise (without `--bare`) the `push` in
+   the next step would fail with
+
+ "error: refusing to update checked out branch: refs/heads/master"
+
+. copy source branch to master as master to new repository
++
+[source,shell]
+----
+> cd source-clone
+> git push ../new-bare-repo source-branch:master
+> cd ..
+----
+
+. clone from the new bare repository
++
+[source,shell]
+----
+ > git clone ./new-bare-repo new-clone
+----
+
+. push to github
++
+[source,shell]
+----
+ > cd ./new-clone
+ > git remote add origin https://github.com/<user>/<remote-repo>.git
+ > git push -u origin master
+----
+
+. cleanup
++
+now that the new repository is on github the `new-bare-repo` is no longer needed.
