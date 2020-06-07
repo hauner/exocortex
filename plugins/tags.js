@@ -14,6 +14,10 @@ async function tagsPlugin(route, config) {
       type: TagsPluginName
     },
     {
+      route: '/tags/gradle',
+      type: TagsPluginName
+    },
+    {
       route: '/tags/git',
       type: TagsPluginName
     },
