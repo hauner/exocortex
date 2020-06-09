@@ -13,6 +13,8 @@ $fa-font-path: '/assets/webfonts';
 
 @import "scss/prism-okaidia.css";
 
+//@import "~asciidoctor.js/dist/css/asciidoctor.css";
+
 h2, h3 {
   text-transform: none;
   letter-spacing: 0;
@@ -51,11 +53,20 @@ pre {
 }
 
 code {
-  font-size: 0.875em;
+  //font-size: 0.875em;
+  font-size: 1em;
 }
 
+// block title
 .listingblock .title {
-  font-size: 0.75em;
+  font-size: 1em;
   margin-bottom: 0.5em;
   font-weight: bold;
+  font-style: italic;
 }
+
+// better table spacing
+td p {
+  margin: 0;
+}
+
