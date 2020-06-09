@@ -20,70 +20,62 @@ the external libraries section o the project view.
 
 In this case jackson packages.
 
-Running `gradle dependencies` to see where they are coming from I received the following output (
+Running `gradle dependencies` to see where they are coming from prints the following output (
 look for `jackson`):
 
-[title="gradle dependencies snippet"]
+[source,text,title="gradle dependencies (simplified)"]
 ----
 +--- com.fasterxml.jackson.module:jackson-module-kotlin:2.11.0
-|    +--- com.fasterxml.jackson.core:jackson-databind:2.11.0
+|    +--- com.fasterxml.jackson.core:jackson-databind:2.11.0 <1>
 |    |    +--- com.fasterxml.jackson.core:jackson-annotations:2.11.0
 |    |    \--- com.fasterxml.jackson.core:jackson-core:2.11.0
-|    +--- com.fasterxml.jackson.core:jackson-annotations:2.11.0
-|    \--- org.jetbrains.kotlin:kotlin-reflect:1.3.61
-|         \--- org.jetbrains.kotlin:kotlin-stdlib:1.3.61 -> 1.3.72 (*)
+|    \--- com.fasterxml.jackson.core:jackson-annotations:2.11.0
 +--- org.openapi4j:openapi-parser:1.0
 |    \--- org.openapi4j:openapi-core:1.0
-|         +--- com.fasterxml.jackson.core:jackson-databind:2.9.10 -> 2.11.0 (*)
-|         \--- com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.9.10 -> 2.10.2
-|              +--- org.yaml:snakeyaml:1.24
-|              \--- com.fasterxml.jackson.core:jackson-core:2.10.2 -> 2.11.0
+|         +--- com.fasterxml.jackson.core:jackson-databind:2.9.10 -> 2.11.0 (*) <2>
+|         \--- com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.9.10 -> 2.10.2 <3>
+|              \--- com.fasterxml.jackson.core:jackson-core:2.10.2 -> 2.11.0 <4>
 +--- io.swagger.parser.v3:swagger-parser:2.0.20
-|    +--- io.swagger.parser.v3:swagger-parser-v3:2.0.20
-|    |    +--- io.swagger.core.v3:swagger-models:2.1.2
-|    |    |    \--- com.fasterxml.jackson.core:jackson-annotations:2.10.1 -> 2.11.0
-|    |    +--- io.swagger.core.v3:swagger-core:2.1.2
-|    |    |    +--- jakarta.xml.bind:jakarta.xml.bind-api:2.3.2
-|    |    |    |    \--- jakarta.activation:jakarta.activation-api:1.2.1
-|    |    |    +--- org.apache.commons:commons-lang3:3.7
-|    |    |    +--- org.slf4j:slf4j-api:1.7.25 -> 1.7.30
-|    |    |    +--- com.fasterxml.jackson.core:jackson-annotations:2.10.1 -> 2.11.0
-|    |    |    +--- com.fasterxml.jackson.core:jackson-databind:2.10.1 -> 2.11.0 (*)
-|    |    |    +--- com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.10.1 -> 2.10.2 (*)
-|    |    |    +--- com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.10.1
-|    |    |    |    +--- com.fasterxml.jackson.core:jackson-annotations:2.10.1 -> 2.11.0
-|    |    |    |    +--- com.fasterxml.jackson.core:jackson-core:2.10.1 -> 2.11.0
-|    |    |    |    \--- com.fasterxml.jackson.core:jackson-databind:2.10.1 -> 2.11.0 (*)
-|    |    |    +--- io.swagger.core.v3:swagger-models:2.1.2 (*)
-|    |    |    \--- jakarta.validation:jakarta.validation-api:2.0.2
-|    |    +--- io.swagger.parser.v3:swagger-parser-core:2.0.20
-|    |    |    \--- io.swagger.core.v3:swagger-models:2.1.2 (*)
-|    |    +--- commons-io:commons-io:2.6
-|    |    +--- com.fasterxml.jackson.core:jackson-annotations:2.10.2 -> 2.11.0
-|    |    +--- com.fasterxml.jackson.core:jackson-databind:2.10.2 -> 2.11.0 (*)
-|    |    \--- com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.10.2 (*)
-|    +--- org.slf4j:slf4j-ext:1.7.30
-|    |    \--- org.slf4j:slf4j-api:1.7.30
-|    +--- org.slf4j:slf4j-api:1.7.30
-|    \--- commons-io:commons-io:2.6
+     +--- io.swagger.parser.v3:swagger-parser-v3:2.0.20
+          +--- io.swagger.core.v3:swagger-models:2.1.2
+          |    \--- com.fasterxml.jackson.core:jackson-annotations:2.10.1 -> 2.11.0 <5>
+          +--- io.swagger.core.v3:swagger-core:2.1.2
+          |    +--- com.fasterxml.jackson.core:jackson-annotations:2.10.1 -> 2.11.0
+          |    +--- com.fasterxml.jackson.core:jackson-databind:2.10.1 -> 2.11.0 (*)
+          |    +--- com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.10.1 -> 2.10.2 (*) <6>
+          |    +--- com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.10.1 <7>
+          |         +--- com.fasterxml.jackson.core:jackson-annotations:2.10.1 -> 2.11.0
+          |         +--- com.fasterxml.jackson.core:jackson-core:2.10.1 -> 2.11.0
+          |         \--- com.fasterxml.jackson.core:jackson-databind:2.10.1 -> 2.11.0 (*)
+          +--- com.fasterxml.jackson.core:jackson-annotations:2.10.2 -> 2.11.0
+          +--- com.fasterxml.jackson.core:jackson-databind:2.10.2 -> 2.11.0 (*)
+          \--- com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.10.2 (*) <8>
 ----
 
-Noticed something?
+There is a bit of a mess regarding the jackson packages and their versions. Here are a couple of
+entries:
 
-Yes, there is a bit of a mess of jackson packages and versions.
+<1> some with version 2.11.0
+<2> upgrade from 2.9.10 to 2.11.0
+<3> upgrade from 2.9.10 to 2.10.2
+<4> upgrade from 2.10.2 to 2.11.0
+<5> upgrade from 2.10.1 to 2.11.0
+<6> upgrade from 2.10.1 to 2.10.2
+<7> version 2.10.1
+<8> version 2.10.2
 
-The following 3 packages are direct dependencies (as gradle calls them) of my project and all of
+
+The 3 top-level dependencies are direct dependencies (as gradle calls them) of my project and all of
 them use different jackson versions:
 
-- `com.fasterxml.jackson.module:jackson-module-kotlin:2.11.0`
-- `org.openapi4j:openapi-parser:1.0`
-- `io.swagger.parser.v3:swagger-parser:2.0.20`
+. `com.fasterxml.jackson.module:jackson-module-kotlin:2.11.0`
+. `org.openapi4j:openapi-parser:1.0`
+. `io.swagger.parser.v3:swagger-parser:2.0.20`
 
-Since the first one `com.fasterxml.jackson.module:jackson-module-kotlin` is a jackson package itself
-it is clear why gradle picks up *2.11.0* for the packages, and it should use that version for any
-other jackson package.
+The first one is simple. Because `com.fasterxml.jackson.module:jackson-module-kotlin` is a jackson
+package itself, gradle selects *2.11.0* for the other transitive jackson dependencies.
 
-[title="jackson-module-kotlin: simplified"]
+[source,text,title="jackson-module-kotlin (simplified)"]
 ----
 +--- com.fasterxml.jackson.module:jackson-module-kotlin:2.11.0
      +--- com.fasterxml.jackson.core:jackson-annotations:2.11.0
@@ -94,7 +86,7 @@ other jackson package.
 Next one is `org.openapi4j:openapi-parser:1.0`. This one depends on jackson *2.9.10* and gradle
 upgrades everything to *2.11.0* because that is the newest version it found.
 
-[title="openapi-parser: simplified"]
+[source,text,title="openapi-parser (simplified)"]
 ----
 +--- org.openapi4j:openapi-parser:1.0
      +--- com.fasterxml.jackson.core:jackson-core:2.10.2 -> 2.11.0
@@ -102,15 +94,13 @@ upgrades everything to *2.11.0* because that is the newest version it found.
      \--- com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.9.10 -> 2.10.2
 ----
 
-Oh, not for all, it doesn't use *2.11.0* for `jackson-dataformat-yaml`.
+Ok, not for all jackson packages. It doesn't use *2.11.0* for `jackson-dataformat-yaml`.
 
 It is not using *2.11.0* because gradle has not seen a newer version of `jackson-dataformat-yaml`
-than *2.9.10*. So first guess is, it should be *2.9.10*.
+than *2.9.10*. So why is it not *2.9.10*? It is not because the third direct dependency
+`io.swagger.parser.v3:swagger-parser:2.0.20` is using *2.10.1* and *2.10.2*.
 
-That is not true though, the third direct dependency `io.swagger.parser.v3:swagger-parser:2.0.20` is
-using *2.10.1* and *2.10.2*.
-
-[title="swagger-parser: simplified"]
+[source,text,title="swagger-parser (simplified)"]
 ----
 +--- io.swagger.parser.v3:swagger-parser:2.0.20
      +--- com.fasterxml.jackson.core:jackson-annotations:2.10.1 -> 2.11.0
@@ -120,10 +110,11 @@ using *2.10.1* and *2.10.2*.
      \--- com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.10.1
 ----
 
-*2.10.2* for `jackson-dataformat-yaml`. This is the highest version for it so gradle picks that.
+*2.10.2* for `jackson-dataformat-yaml`. This is the highest version for this package so gradle picks
+that.
 
 
-so finally gradle picked the following versions:
+Gradle finally selects the following versions:
 
 [cols="2*",options="header"]
 |===
@@ -146,12 +137,15 @@ so finally gradle picked the following versions:
 | 2.10.1 => want 2.11.0
 |===
 
+Gradle uses the highest version it does find for each package. It doesn't know that the jackson
+packages belong together and that all of them should use the same version.
+
 There are two possible solutions to make all jackson packages use the expected version.
 
 == solution
 
 According to the gradle documentation the preferred solution is to add a `constraints` block to the
-`dependencies` and not to add a direct dependency:
+`dependencies`. Adding a direct dependency is not the correct solution:
 
 link:{gradle-constraints}[gradle constraints, window="_blank"]
 
@@ -171,7 +165,7 @@ published for your consumers.
 
 === constraints
 
-I have a library and here is how constraints look like in the `build.gradle`:
+The project is a library and the constraints solution look like this in the `build.gradle`:
 
 [source,groovy]
 ----
@@ -194,10 +188,10 @@ dependencies {
 }
 ----
 
-Nice, this fixes the issue. :-)
+Ok, this fixes the issue. :-)
 
-Too bad each single package requires its own constraint. It would be nice to use wildcards to
-match all jackson packages with a single constraint:
+Too bad each single package requires its own constraint (the closure with `because` ist not required).
+It would be nice to use wildcards to match all jackson packages with a single constraint:
 
 [source,groovy]
 ----
@@ -218,7 +212,8 @@ dependencies {
 }
 ----
 
-That would be a bit shorter but unfortunately it does not work.
+That would be a bit simpler but unfortunately it does not work.
+
 
 === platform
 
@@ -242,7 +237,8 @@ class JacksonPlatformRule implements ComponentMetadataRule {
 }
 ----
 
-I simply added the class at the end of the `build.gradle`.
+I simply added the class at the end of the `build.gradle` for testing, but it will probably move to
+gradles `buildSrc` folder.
 
 Second step is to activate the rule in the `dependencies` block:
 
@@ -255,13 +251,13 @@ dependencies {
 }
 ----
 
-By grouping the packages gradle selects the jackson platform with the highest version and uses the
-versions listed in the bom for any jackson package.
+By grouping the packages gradle now selects the jackson *platform* with the highest version and uses
+the versions listed in the bom for any jackson package.
 
-This is also visible in the output of `gradle dependencies` (starting at line 4). Gradle selected
-the *2.11.0* platform module and upgraded all jackson packages to the platform version:
+This is also visible in the output of `gradle dependencies` (starting at line 4). Gradle selects
+the *2.11.0* platform module and upgrades all jackson packages to the platform version:
 
-[title="gradle dependencies snippet"]
+[source,text,title="gradle dependencies (simplified)"]
 ----
 +--- com.fasterxml.jackson.module:jackson-module-kotlin:2.11.0
 |    +--- com.fasterxml.jackson.core:jackson-databind:2.11.0
@@ -278,8 +274,6 @@ the *2.11.0* platform module and upgraded all jackson packages to the platform v
 |    |    |    \--- com.fasterxml.jackson:jackson-bom:2.11.0 (*)
 |    |    \--- com.fasterxml.jackson:jackson-bom:2.11.0 (*)
 |    +--- com.fasterxml.jackson.core:jackson-annotations:2.11.0 (*)
-|    +--- org.jetbrains.kotlin:kotlin-reflect:1.3.61
-|    |    \--- org.jetbrains.kotlin:kotlin-stdlib:1.3.61 -> 1.3.72 (*)
 |    \--- com.fasterxml.jackson:jackson-bom:2.11.0 (*)
 +--- org.openapi4j:openapi-parser:1.0
 |    \--- org.openapi4j:openapi-core:1.0
@@ -290,40 +284,26 @@ the *2.11.0* platform module and upgraded all jackson packages to the platform v
 |              +--- com.fasterxml.jackson.core:jackson-core:2.11.0 (*)
 |              \--- com.fasterxml.jackson:jackson-bom:2.11.0 (*)
 +--- io.swagger.parser.v3:swagger-parser:2.0.20
-|    +--- io.swagger.parser.v3:swagger-parser-v3:2.0.20
-|    |    +--- io.swagger.core.v3:swagger-models:2.1.2
-|    |    |    \--- com.fasterxml.jackson.core:jackson-annotations:2.10.1 -> 2.11.0 (*)
-|    |    +--- io.swagger.core.v3:swagger-core:2.1.2
-|    |    |    +--- jakarta.xml.bind:jakarta.xml.bind-api:2.3.2
-|    |    |    |    \--- jakarta.activation:jakarta.activation-api:1.2.1
-|    |    |    +--- org.apache.commons:commons-lang3:3.7
-|    |    |    +--- org.slf4j:slf4j-api:1.7.25 -> 1.7.30
-|    |    |    +--- com.fasterxml.jackson.core:jackson-annotations:2.10.1 -> 2.11.0 (*)
-|    |    |    +--- com.fasterxml.jackson.core:jackson-databind:2.10.1 -> 2.11.0 (*)
-|    |    |    +--- com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.10.1 -> 2.11.0 (*)
-|    |    |    +--- com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.10.1 -> 2.11.0
-|    |    |    |    +--- com.fasterxml.jackson.core:jackson-annotations:2.11.0 (*)
-|    |    |    |    +--- com.fasterxml.jackson.core:jackson-core:2.11.0 (*)
-|    |    |    |    +--- com.fasterxml.jackson.core:jackson-databind:2.11.0 (*)
-|    |    |    |    \--- com.fasterxml.jackson:jackson-bom:2.11.0 (*)
-|    |    |    +--- io.swagger.core.v3:swagger-models:2.1.2 (*)
-|    |    |    \--- jakarta.validation:jakarta.validation-api:2.0.2
-|    |    +--- io.swagger.parser.v3:swagger-parser-core:2.0.20
-|    |    |    \--- io.swagger.core.v3:swagger-models:2.1.2 (*)
-|    |    +--- commons-io:commons-io:2.6
-|    |    +--- com.fasterxml.jackson.core:jackson-annotations:2.10.2 -> 2.11.0 (*)
-|    |    +--- com.fasterxml.jackson.core:jackson-databind:2.10.2 -> 2.11.0 (*)
-|    |    \--- com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.10.2 -> 2.11.0 (*)
-|    +--- org.slf4j:slf4j-ext:1.7.30
-|    |    \--- org.slf4j:slf4j-api:1.7.30
-|    +--- org.slf4j:slf4j-api:1.7.30
-|    \--- commons-io:commons-io:2.6
+     +--- io.swagger.parser.v3:swagger-parser-v3:2.0.20
+          +--- io.swagger.core.v3:swagger-models:2.1.2
+          |    \--- com.fasterxml.jackson.core:jackson-annotations:2.10.1 -> 2.11.0 (*)
+          +--- io.swagger.core.v3:swagger-core:2.1.2
+          |    +--- com.fasterxml.jackson.core:jackson-annotations:2.10.1 -> 2.11.0 (*)
+          |    +--- com.fasterxml.jackson.core:jackson-databind:2.10.1 -> 2.11.0 (*)
+          |    +--- com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.10.1 -> 2.11.0 (*)
+          |    \--- com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.10.1 -> 2.11.0
+          |         +--- com.fasterxml.jackson.core:jackson-annotations:2.11.0 (*)
+          |         +--- com.fasterxml.jackson.core:jackson-core:2.11.0 (*)
+          |         +--- com.fasterxml.jackson.core:jackson-databind:2.11.0 (*)
+          |         \--- com.fasterxml.jackson:jackson-bom:2.11.0 (*)
+          +--- com.fasterxml.jackson.core:jackson-annotations:2.10.2 -> 2.11.0 (*)
+          +--- com.fasterxml.jackson.core:jackson-databind:2.10.2 -> 2.11.0 (*)
+          \--- com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.10.2 -> 2.11.0 (*)
 ----
-
 
 == conclusion
 
-The `constraints` solution is simple and easy to use to fix single dependencies, and the platform
-rule is the way to go for groups of packages like jackson.
+The `constraints` solution is easy to use on single dependencies. The platform rule is the way to go
+for groups of packages like jackson.
 
 That's it. pass:[<i class="far fa-smile"></i>]
