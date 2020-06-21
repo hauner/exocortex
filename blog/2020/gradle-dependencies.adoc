@@ -111,7 +111,7 @@ than *2.9.10*. So why is it not *2.9.10*? It is not because the third direct dep
 ----
 
 *2.10.2* for `jackson-dataformat-yaml`. This is the highest version for this package so gradle picks
-that.
+it.
 
 
 Gradle finally selects the following versions:
