@@ -1,29 +1,26 @@
-<div id="wrapper">
+<app-header></app-header>
 
-  <app-header></app-header>
+<main class="m-0 px-0 lg:px-5 py-5 max-w-screen-xl mx-auto">
 
-  <div id="main">
+  <div class="lg:flex lg:flex-row-reverse">
 
-    <section >
+    <section class="flex-col lg:flex-grow">
 
-      <div class="mini-posts">
-
-          <article class="mini-post" *ngFor="let tag of tags$ | async">
-
-            <header style="display: flex; align-items: center">
-              <h3 style="margin-bottom: 0">
-                <a [routerLink]="['/tags', tag]"><span class="icon solid fa-tag">{{tag}}</span></a>
-              </h3>
-            </header>
-
-          </article>
-
-      </div>
+      <section class="p-4 bg-white border">
+        <div class="flex flex-wrap justify-center divide-x uppercase tracking-widest text-xs leading-loose text-gray-500 mt-2">
+          <ng-container *ngFor="let tag of tags$ | async">
+            <a [routerLink]="['/tags', tag]" class="flex items-center underline px-2 hover:text-blue-800">
+              <ion-icon name="pricetag"></ion-icon>
+              <span class="pl-1">{{tag}}</span>
+            </a>
+          </ng-container>
+        </div>
+      </section>
 
     </section>
 
+    <app-sidebar [showArticles]="true"></app-sidebar>
+
   </div>
 
-  <app-sidebar [showArticles]="true"></app-sidebar>
-
-</div>
+</main>
