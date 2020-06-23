@@ -1,84 +1,57 @@
-<section id="sidebar">
+<aside class="lg:w-sidebar bg-gray-100 p-4 divide-y">
 
-  <!-- Intro -->
-  <section id="intro">
-    <a [routerLink]="['/']" class="logo"><img src="assets/avatar-480x480.png" alt="avatar"/></a>
-    <header>
-<!--      <h3>software noise</h3>-->
+  <section class="flex flex-col mb-8">
+    <a [routerLink]="['/']" class="flex justify-center lg:justify-start">
+      <img src="assets/avatar-480x480.png" alt="avatar" class="w-20"/>
+    </a>
+    <header class="text-xs uppercase tracking-heavy font-light mt-4 text-center lg:text-left whitespace-no-wrap">
       <p>my Exocortex Memory :-)</p>
     </header>
   </section>
 
-  <!-- Mini Posts -->
-  <!--
+
+  <ng-container *ngIf="showArticles">
+    <section *ngFor="let blog of links$ | async" class="py-4">
+
+      <article>
+        <header>
+          <a [routerLink]="[blog.route]" class="font-light text-sm">{{blog.title}}</a>
+        </header>
+
+        <div class="flex divide-x uppercase text-xs text-gray-500 mt-2">
+          <ng-container *ngFor="let tag of blog.tags">
+            <a [routerLink]="['/tags', tag]" class="flex items-center underline px-2 hover:text-blue-800">
+              <ion-icon name="pricetag"></ion-icon>
+              <span class="pl-1">{{tag}}</span>
+            </a>
+          </ng-container>
+        </div>
+
+        <time class="text-xs text-gray-500" [attr.datetime]="blog.date">{{blog.date | date:'dd. MMM yyyy'}}</time>
+
+      </article>
+
+    </section>
+  </ng-container>
+
+
   <section>
-    <div class="mini-posts">
+    <footer class="flex flex-col uppercase tracking-heavy text-gray-500">
+      <div class="flex justify-center lg:justify-start space-x-4 uppercase tracking-heavy text-gray-500 my-8">
+        <a href="https://twitter.com/MartinHauner" class="flex items-center hover:text-blue-800">
+          <ion-icon name="logo-twitter"></ion-icon>
+        </a>
+        <a href="https://github.com/hauner" class="flex items-center hover:text-blue-800">
+          <ion-icon name="logo-github"></ion-icon>
+        </a>
+      </div>
 
-        <article class="mini-post">
-          <header>
-            <h3><a href="single.html">Vitae sed condimentum</a></h3>
-            <time class="published" datetime="2015-10-20">October 20, 2015</time>
-            <a href="#" class="author"><img src="images/avatar.jpg" alt="" /></a>
-          </header>
-          <a href="single.html" class="image"><img src="images/pic04.jpg" alt="" /></a>
-        </article>
-
-    </div>
-  </section>
-  -->
-
-  <!-- Posts List -->
-  <section *ngIf="showArticles">
-
-    <ul class="posts">
-
-      <li *ngFor="let blog of links$ | async">
-        <article>
-          <header>
-            <h3 style="margin-bottom: 0"><a [routerLink]="[blog.route]">{{blog.title}}</a></h3>
-
-            <div class="tags">
-              <ul class="stats">
-                <li *ngFor="let tag of blog.tags">
-                  <a [routerLink]="['/tags', tag]">
-                    <span class="icon solid fa-tag">{{tag}}</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <time class="published" [attr.datetime]="blog.date">{{blog.date | date:'dd. MMM yyyy'}}</time>
-          </header>
-        </article>
-      </li>
-
-    </ul>
-
+      <div class="text-center lg:text-left" style="font-size: 0.5rem">&copy; Martin Hauner</div>
+      <div class="text-center lg:text-left" style="font-size: 0.5rem">
+        built with <a href="https://github.com/scullyio/scully" class="underline hover:text-blue-800">Scully</a>
+        & <a href="https://tailwindcss.com" class="underline hover:text-blue-800">tailwindcss</a>
+      </div>
+    </footer>
   </section>
 
-  <!-- About -->
-  <!--
-  <section class="blurb">
-    <h2>About</h2>
-    <p>Mauris neque quam, fermentum ut nisl vitae, convallis maximus nisl. Sed mattis nunc id lorem euismod amet placerat. Vivamus porttitor magna enim, ac accumsan tortor cursus at phasellus sed ultricies.</p>
-    <ul class="actions">
-      <li><a href="#" class="button">Learn More</a></li>
-    </ul>
-  </section>
-  -->
-
-  <!-- Footer -->
-  <section id="footer" >
-    <ul class="icons">
-      <li><a href="https://twitter.com/MartinHauner" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-      <li><a href="https://github.com/hauner" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
-<!--      <li><a href="#" class="icon solid fa-rss"><span class="label">RSS</span></a></li>-->
-<!--      <li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>-->
-    </ul>
-    <p class="copyright" style="margin-bottom: 1rem">&copy; Martin Hauner
-      <span style="display: block">design by <a href="http://html5up.net">HTML5 UP</a></span>
-      <span>built with <a href="https://github.com/scullyio/scully">Scully</a></span>
-    </p>
-  </section>
-
-</section>
+</aside>
