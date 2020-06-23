@@ -1,61 +1,45 @@
-<div id="wrapper">
+<app-header></app-header>
 
-  <app-header></app-header>
+<main class="m-0 p-5 max-w-screen-xl mx-auto">
 
-  <div id="main">
+  <!--
+  <section class="bg-white p-2 mb-4 border">
+    <p>top banner</p>
+  </section>
+  -->
 
-    <!-- Posts List -->
-    <section>
+  <div class="lg:flex lg:flex-row-reverse">
 
-      <div class="mini-posts">
+    <section class="flex-col lg:flex-grow">
 
-          <article class="mini-post" *ngFor="let blog of links$ | async">
+      <article *ngFor="let blog of links$ | async" class="p-4 my-5 border bg-white">
+        <header>
+          <a [routerLink]="[blog.route]" class="font-semibold">{{blog.title}}</a>
+        </header>
 
-            <header>
-              <h3><a [routerLink]="[blog.route]">{{blog.title}}</a></h3>
+        <div class="flex divide-x uppercase text-xs text-gray-500 mt-2">
+          <ng-container *ngFor="let tag of blog.tags">
+            <a [routerLink]="['/tags', tag]" class="flex items-center underline px-2 hover:text-blue-800">
+              <ion-icon name="pricetag"></ion-icon>
+              <span class="pl-1">{{tag}}</span>
+            </a>
+          </ng-container>
+        </div>
 
-              <div class="tags">
-                <ul class="stats">
-                  <li *ngFor="let tag of blog.tags">
-                    <a [routerLink]="['/tags', tag]">
-                      <span class="icon solid fa-tag">{{tag}}</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
+        <time class="text-xs text-gray-500" [attr.datetime]="blog.date">{{blog.date | date:'dd. MMM yyyy'}}</time>
 
-              <time class="published" [attr.datetime]="blog.date">{{blog.date | date:'dd. MM yyyy'}}</time>
-            </header>
-
-          </article>
-
-      </div>
-
-
-<!--      <ul class="posts">-->
-
-<!--        <li *ngFor="let blog of links$ | async">-->
-<!--          <article>-->
-<!--            <header>-->
-<!--              <h3><a [routerLink]="[blog.route]">{{blog.title}}</a></h3>-->
-<!--              <time class="published" [attr.datetime]="blog.date">{{blog.date | date:'longDate'}}</time>-->
-<!--            </header>-->
-<!--          </article>-->
-<!--        </li>-->
-
-<!--      </ul>-->
-
-
+      </article>
 
     </section>
 
-<!--      <ul>-->
-<!--        <li *ngFor="let page of links$ | async">{{ page.route }}</li>-->
-<!--        <li *ngFor="let page of links$ | async">{{ page | json }}</li>-->
-<!--      </ul>-->
+    <app-sidebar [showArticles]="false"></app-sidebar>
 
   </div>
 
-  <app-sidebar [showArticles]="false"></app-sidebar>
+  <!--
+    <footer class="p-2 mt-4 border">
+      <p>bottom footer</p>
+    </footer>
+  -->
 
-</div>
+</main>
