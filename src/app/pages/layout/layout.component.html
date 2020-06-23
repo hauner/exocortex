@@ -1,4 +1,4 @@
-<header class="border-b">
+<header class="border-b bg-white">
 
   <div class="m-0 px-3 max-w-screen-xl mx-auto flex items-center justify-between">
 
@@ -65,7 +65,17 @@
 
       <!-- Sidebar -->
       <aside class="lg:w-sidebar bg-gray-100">
-          Sidebar
+
+        <section class="flex flex-col p-4">
+          <a [routerLink]="['/']" class="flex justify-center lg:justify-start">
+            <img src="assets/avatar-480x480.png" alt="avatar" class="w-20"/>
+          </a>
+          <header class="text-xs uppercase tracking-heavy font-light mt-4 text-center lg:text-left whitespace-no-wrap">
+            <p>my Exocortex Memory :-)</p>
+          </header>
+        </section>
+
+
         <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sumenda potius quam expetenda. Nihil opus est exemplis hoc facere longius.
         </p>
