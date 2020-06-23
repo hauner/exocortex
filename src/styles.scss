@@ -1,6 +1,8 @@
 // FutureImperfect
-@import "scss/main";
-@import "scss/tags";
+//@import "scss/main";
+//@import "scss/tags";
+@import "tailwind.css";
+
 
 $fa-font-path: '/assets/webfonts';
 @import '~@fortawesome/fontawesome-free/scss/fontawesome';
@@ -15,6 +17,7 @@ $fa-font-path: '/assets/webfonts';
 
 //@import "~asciidoctor.js/dist/css/asciidoctor.css";
 
+/*
 h2, h3 {
   text-transform: none;
   letter-spacing: 0;
@@ -70,3 +73,43 @@ td p {
   margin: 0;
 }
 
+ */
+
+.listingblock {
+
+  // > 1280, left menu to small
+  // sidebar 400px
+
+  // 1280 - 400 = max 880
+
+  // > xlarge  => 942px
+  // > large => 846px
+
+  // 1450 main gets smaller
+
+  //max-width: 100%;
+
+  //@include breakpoint('>medium') {
+  //  width: 100%;
+  //}
+
+  //
+  //@include breakpoint('<=small') {
+  //
+  //}
+  //
+  //@include breakpoint('<=xsmall') {
+  //
+  //}
+
+}
+
+/*
+	@include breakpoints((
+		xlarge:   ( 1281px,  1680px ),
+		large:    ( 981px,   1280px ),
+		medium:   ( 737px,   980px  ),
+		small:    ( 481px,   736px  ),
+		xsmall:   ( null,    480px  )
+	));
+ */
