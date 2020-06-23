@@ -1,7 +1,8 @@
-import { NgModule } from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {LayoutComponent} from "./layout.component";
 import {LayoutRoutingModule} from "./layout-routing.module";
+import {PartsModule} from "../../parts/parts.module";
 
 
 
@@ -11,8 +12,10 @@ import {LayoutRoutingModule} from "./layout-routing.module";
   ],
   imports: [
     CommonModule,
-    LayoutRoutingModule
+    LayoutRoutingModule,
+    PartsModule
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [
   ]
 })
