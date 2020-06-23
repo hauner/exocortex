@@ -34,7 +34,7 @@
 </header>
 
 <!-- Main Content -->
-<main class="m-0 p-3 bg-white max-w-screen-xl mx-auto">
+<main class="m-0 p-5 max-w-screen-xl mx-auto">
     Main
 
 
@@ -64,9 +64,9 @@
       </section>
 
       <!-- Sidebar -->
-      <aside class="lg:w-sidebar bg-gray-100">
+      <aside class="lg:w-sidebar bg-gray-100 p-4 divide-y">
 
-        <section class="flex flex-col p-4">
+        <section class="flex flex-col mb-8">
           <a [routerLink]="['/']" class="flex justify-center lg:justify-start">
             <img src="assets/avatar-480x480.png" alt="avatar" class="w-20"/>
           </a>
@@ -79,6 +79,22 @@
         <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sumenda potius quam expetenda. Nihil opus est exemplis hoc facere longius.
         </p>
+
+
+        <footer class="flex flex-col uppercase tracking-heavy text-gray-500">
+          <div class="flex justify-center lg:justify-start space-x-4 uppercase tracking-heavy text-gray-500 my-8">
+            <a href="https://twitter.com/MartinHauner" class="flex items-center hover:text-blue-800">
+              <ion-icon name="logo-twitter"></ion-icon>
+            </a>
+            <a href="https://github.com/hauner" class="flex items-center hover:text-blue-800">
+              <ion-icon name="logo-github"></ion-icon>
+            </a>
+          </div>
+
+          <div class="text-center lg:text-left" style="font-size: 0.5rem">&copy; Martin Hauner</div>
+          <div class="text-center lg:text-left" style="font-size: 0.5rem">built with <a href="https://github.com/scullyio/scully" class="underline hover:text-blue-800">Scully</a> & <a href="https://tailwindcss.com" class="underline hover:text-blue-800">tailwindcss</a> </div>
+        </footer>
+
       </aside>
 
     </div>

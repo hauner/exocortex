@@ -17919,6 +17919,7 @@ video {
 
 .w-sidebar {
   width: 350px;
+  min-width: 350px;
 }
 
 .tracking-heavy {
@@ -35193,6 +35194,7 @@ video {
 
   .sm\:w-sidebar {
     width: 350px;
+    min-width: 350px;
   }
 }
 
@@ -52458,6 +52460,7 @@ video {
 
   .md\:w-sidebar {
     width: 350px;
+    min-width: 350px;
   }
 }
 
@@ -69723,6 +69726,7 @@ video {
 
   .lg\:w-sidebar {
     width: 350px;
+    min-width: 350px;
   }
 }
 
@@ -86988,5 +86992,6 @@ video {
 
   .xl\:w-sidebar {
     width: 350px;
+    min-width: 350px;
   }
 }
