@@ -1,26 +1,45 @@
-<!--
-<div class="max-w-md mx-auto ...">
-  max-w-md
-</div>
--->
+<header class="border-b">
+
+  <div class="m-0 px-3 max-w-screen-xl mx-auto flex items-center justify-between">
+
+    <h1 class="text-xs uppercase tracking-heavy font-semibold leading-10 px-3 border-r">
+      <a [routerLink]="['/']" class="flex space-x-1 items-center hover:text-blue-800">
+        <img src="assets/avatar-480x480.png" alt="avatar" class="w-8"/>
+        <span>Software&nbsp;Noise</span>
+      </a>
+    </h1>
+
+    <nav class="flex items-center">
+
+      <div class="text-xs uppercase tracking-heavy font-light">
+        <a href="https://hauner.github.io/openapi-processor" class="flex items-center hover:text-blue-800">
+          <img src="assets/openapi-processor-p.svg" class="w-12 text-5xl"/>
+          <span class="hidden sm:inline">openapi-processor</span>
+          <span class="sm:hidden">oap</span>
+        </a>
+      </div>
+
+      <div class="border-l mx-4">&nbsp;</div>
+
+      <div class="text-xs uppercase tracking-heavy font-light">
+        <a href="https://openapi-processor-playground.appspot.com/" class="flex items-center hover:text-blue-800">
+<!--          <img src="assets/openapi-processor-p.svg" class="w-12 text-5xl"/>-->
+          <span class="hidden sm:inline">playground</span>
+          <span class="sm:hidden">play</span>
+        </a>
+      </div>
+
+    </nav>
+
+  </div>
+
+</header>
 
 <!-- Main Content -->
-<main class="m-0 p-3 border border-black bg-white max-w-screen-xl mx-auto">
+<main class="m-0 p-3 bg-white max-w-screen-xl mx-auto">
     Main
 
-    <!-- Header -->
-    <header class="bg-blue-100">
-        Header
 
-
-      <nav>
-        Nav
-      </nav>
-
-      <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sumenda potius quam expetenda. Nihil opus est exemplis hoc facere longius.
-      </p>
-    </header>
 
     <!-- Hero -->
     <section class="bg-red-100">

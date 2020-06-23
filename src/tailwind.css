@@ -17918,7 +17918,11 @@ video {
 /* >> custom utilities ============================================== */
 
 .w-sidebar {
-  width: 400px;
+  width: 350px;
+}
+
+.tracking-heavy {
+  letter-spacing: 0.25em;
 }
 
 .dbg-b {
@@ -35188,7 +35192,7 @@ video {
   }
 
   .sm\:w-sidebar {
-    width: 400px;
+    width: 350px;
   }
 }
 
@@ -52453,7 +52457,7 @@ video {
   }
 
   .md\:w-sidebar {
-    width: 400px;
+    width: 350px;
   }
 }
 
@@ -69718,7 +69722,7 @@ video {
   }
 
   .lg\:w-sidebar {
-    width: 400px;
+    width: 350px;
   }
 }
 
@@ -86983,6 +86987,6 @@ video {
   }
 
   .xl\:w-sidebar {
-    width: 400px;
+    width: 350px;
   }
 }
