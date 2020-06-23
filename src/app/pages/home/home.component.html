@@ -13,11 +13,11 @@
     <section class="flex-col lg:flex-grow">
 
       <article *ngFor="let blog of links$ | async" class="p-4 my-5 border bg-white">
-        <header>
+        <header class="text-center">
           <a [routerLink]="[blog.route]" class="font-semibold">{{blog.title}}</a>
         </header>
 
-        <div class="flex divide-x uppercase text-xs text-gray-500 mt-2">
+        <div class="flex divide-x justify-center uppercase tracking-widest text-xs text-gray-500 mt-2">
           <ng-container *ngFor="let tag of blog.tags">
             <a [routerLink]="['/tags', tag]" class="flex items-center underline px-2 hover:text-blue-800">
               <ion-icon name="pricetag"></ion-icon>
@@ -26,7 +26,9 @@
           </ng-container>
         </div>
 
-        <time class="text-xs text-gray-500" [attr.datetime]="blog.date">{{blog.date | date:'dd. MMM yyyy'}}</time>
+        <div class="text-center">
+          <time class="text-xs text-gray-500" [attr.datetime]="blog.date">{{blog.date | date:'dd. MMM yyyy'}}</time>
+        </div>
 
       </article>
 
