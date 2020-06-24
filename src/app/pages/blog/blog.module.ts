@@ -4,12 +4,12 @@ import {ScullyLibModule} from '@scullyio/ng-lib';
 import {BlogRoutingModule} from './blog-routing.module';
 import {BlogComponent} from './blog.component';
 import {PartsModule} from '../../parts/parts.module';
-import { AsciidoctorComponent } from './asciidoctor/asciidoctor.component';
+import { BlogContentComponent } from './blog-content/blog-content.component';
 
 @NgModule({
   declarations: [
     BlogComponent,
-    AsciidoctorComponent
+    BlogContentComponent
   ],
   imports: [
     CommonModule,
