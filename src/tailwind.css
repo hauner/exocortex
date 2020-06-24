@@ -17981,12 +17981,17 @@ a:hover {
   margin: 0;
 }
 
-.asciidoctor .arabic ol {
-  list-style-type:decimal;
-  margin-left: 2rem;
+.asciidoctor ul {
+  list-style-type: disc;
+  margin-left: 1.5rem;
 }
 
-.asciidoctor ol li {
+.asciidoctor .arabic ol {
+  list-style-type: decimal;
+  margin-left: 1.5rem;
+}
+
+.asciidoctor li {
   padding-left: .25em;
 }
 
