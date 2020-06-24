@@ -1,0 +1,79 @@
+---
+date: 2020-06-24
+title: 'bintray - getting started'
+description: 'bintray, jcenter, snapshots, what?'
+published: true
+tags:
+  - bintray
+  - jcenter
+---
+
+:bintray: https://bintray.com/
+
+:jfrog-gs: https://www.jfrog.com/confluence/display/BT/Getting+Started
+:jfrog-repo: https://www.jfrog.com/confluence/display/BT/Managing+Repositories
+:jfrog-snapshot: https://www.jfrog.com/confluence/display/RTF/Deploying+Snapshots+to+oss.jfrog.org
+
+:blog-bintray: https://reflectoring.io/guide-publishing-to-bintray-with-gradle/
+:blog-snapshot: https://reflectoring.io/publish-snapshots-with-gradle/
+:blog-jcenter: https://reflectoring.io/bintray-jcenter-maven-central/
+
+
+== bintray - getting started
+
+link:{bintray}[Bintray] is a bit confusing at first because there are 3 parts involved.
+
+The 3 parts are:
+
+. a bintray repository. It will contain only our own (in my case maven) packages published to it. To load the packages from the repository we can add it to gradles `repositories` block. For example:
++
+[source,groovy]
+----
+repositories {
+  maven {
+    setUrl("https://dl.bintray.com/openapi-processor/primary")
+  }
+}
+----
++
+where `openapi-processor` is the (bintray) user or organization (organization in my case), and `primary` is a (there can be more) repository in the account.
++
+The documentation uses the bintray gradle plugin to upload our package to the bintray repository.
+
+. then there is *jcenter*, a public repository like maven central, that publishes the packages of many open source projects under a common repository.
++
+Gradle has built-in support for jcenter:
++
+[source,groovy]
+----
+repositories {
+  maven {
+    jcenter()
+  }
+}
+----
+
+. and last there is an artifactory repository *https://oss.jfrog.org/oss-snapshot-local* that is used to publish *SNAPSHOT* versions.
++
+The documentation uses the artifactory gradle plugin to upload snapshots.
+
+
+The bintray repository is the starting point. After connecting it to *jcenter* we can:
+
+* publish a new package version to bintray, and it will automatically be published to jcenter,
+
+* and publish new snapshot releases to oss.jfrog.org.
+
+Here a couple of links that helped me with the initial publishing setup:
+
+A few blogs articles:
+
+* link:{blog-bintray}[Publishing to Bintray, window="_blank"]
+* link:{blog-snapshots}[Publishing Snapshots, window="_blank"]
+* link:{blog-jcenter}[Publishing to JCenter, window="_blank"]
+
+and a couple of links to the Bintray documentation:
+
+* link:{bintray-gs}[Getting Started, window="_blank"]
+* link:{bintray-repo}[Managing Repositories, window="_blank"]
+* link:{bintray-snapshots}[Deploying Snapshots, window="_blank"]
