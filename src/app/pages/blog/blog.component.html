@@ -1,78 +1,55 @@
-<div id="wrapper">
+<app-header></app-header>
 
-  <app-header></app-header>
+<main class="m-0 px-0 lg:px-5 py-5 max-w-screen-xl mx-auto">
 
-  <div id="main">
+  <!--
+  <section class="bg-white p-2 mb-4 border">
+    <p>top banner</p>
+  </section>
+  -->
 
-    <div>
+  <div class="lg:flex lg:flex-row-reverse">
 
-      <article class="post">
+    <section class="flex-col lg:flex-grow lg:w-main">
+
+      <article class="bg-white p-8 border">
 
         <!--
         current: {{current | json}} running: {{isRunning}} generated: {{isGenerated}}
         -->
 
-        <header *ngIf="current != null; else nodata">
-          <div class="title">
-            <h2>{{current.title}}</h2>
-            <p>{{current.description}}</p>
+        <header *ngIf="current != null; else nodata" class="pt-2 pb-8 border-b">
+          <div class="">
+            <h1 class="text-3xl text-center font-bold mb-4">{{current.title}}</h1>
+            <p class="text-gray-700 text-center mb-6">{{current.description}}</p>
           </div>
-          <div class="meta">
-            <time class="published stacked" [attr.datetime]="current.date">{{current.date | date:'dd. MMM yyyy'}}</time>
 
-            <div class="tags">
-              <ul class="stats stacked">
-                <li *ngFor="let tag of current.tags">
-                  <a [routerLink]="['/tags', tag]">
-                    <span class="icon solid fa-tag">{{tag}}</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
+          <div class="flex justify-center text-sm text-gray-500 mt-3">
+            <app-tag-list [tags]="current.tags"></app-tag-list>
+          </div>
 
+          <div class="text-sm text-gray-500 text-center mt-2">
+            <time class="font-bold" [attr.datetime]="current.date">{{current.date | date:'dd. MMM yyyy'}}</time>
           </div>
         </header>
 
         <ng-template #nodata>...</ng-template>
 
-        <div>
-          <scully-content></scully-content>
+        <div class="mt-4">
+          <app-blog-content></app-blog-content>
         </div>
-
-        <footer>
-          <!--
-          <ul class="stats">
-            <li *ngFor="let tag of current.tags">
-              <span class="icon solid fa-tag">{{tag}}</span>
-            </li>
-          </ul>
-          -->
-        </footer>
       </article>
 
-      <!-- Pagination -->
-      <!--
-      <ul class="actions pagination">
-        <li>
-          <a *ngIf="routePrev" [routerLink]="[routePrev.route]" class="button large previous">Previous Article - {{routePrev.date | date:'dd.MM.yy'}}</a>
-          <a *ngIf="!routePrev" class="button large previous disabled">No Next Article</a>
-        </li>
+    </section>
 
-        <li>
-          <a *ngIf="routeNext" [routerLink]="[routeNext.route]" class="button large next">Next Article - {{routeNext.date | date:'dd.MM.yy'}}</a>
-          <a *ngIf="!routeNext" class="button large next disabled">No Previous Article</a>
-        </li>
-      </ul>
-      -->
-
-    </div>
-
-    <!-- debug
-    <p>blog: <span>{{ blog | json }}</span></p>
-    -->
+    <app-sidebar [showArticles]="true"></app-sidebar>
 
   </div>
 
-  <app-sidebar [showArticles]="true"></app-sidebar>
+  <!--
+    <footer class="p-2 mt-4 border">
+      <p>bottom footer</p>
+    </footer>
+  -->
 
-</div>
+</main>

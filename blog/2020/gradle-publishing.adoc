@@ -1,0 +1,245 @@
+---
+date: 2020-06-22
+title: 'publishing to bintray & oos.jfrog.org with gradle maven-publish only'
+description: 'publish to bintray & oss.jfrog.org without bintray plugin & artifactory plugin'
+published: false
+tags:
+  - gradle
+---
+
+//:oap-docs: https://hauner.github.io/openapi-processor
+
+:bintray: https://bintray.com/
+:jfrog-gs: https://www.jfrog.com/confluence/display/BT/Getting+Started
+:jfrog-repo: https://www.jfrog.com/confluence/display/BT/Managing+Repositories
+:jfrog-snapshot: https://www.jfrog.com/confluence/display/RTF/Deploying+Snapshots+to+oss.jfrog.org
+
+:blog-bintray: https://reflectoring.io/guide-publishing-to-bintray-with-gradle/
+:blog-snapshot: https://reflectoring.io/publish-snapshots-with-gradle/
+:blog-jcenter: https://reflectoring.io/bintray-jcenter-maven-central/
+
+:bintray-bug: https://github.com/bintray/gradle-bintray-plugin/issues/229
+:bintray-bug2: https://github.com/gradle/gradle/issues/11412
+
+:bintray-api: https://www.jfrog.com/confluence/display/BT/Bintray+REST+API#BintrayRESTAPI-MavenUpload
+
+== introduction
+
+One possibility to publish jvm based open source project is link:{bintray}[bintray] with a combination of the maven-publish, bintray plugin and artifactory plugin:
+
+* maven-publish (gradle standard plugin) to define the pom details and what should be published,
+* the bintray plugin to upload and publish a package to a bintray repository and jcenter,
+* and the artifactory plugin to publish snapshot releases to the snapshot artifactory repository.
+
+Three plugins? Isn't that something that maven-publish can do alone?
+
+Maybe, but to get all this running I just followed the docs. Don't change too many things at once.
+
+There is a short section at the end of this article about bintray with a couple of links that helped me with the setup.
+
+== the issue
+
+Finally, it was running, and there was more interesting stuff to spend time on. ;-)
+
+
+Then I updated my builds to the latest gradle version (6.5).
+
+Starting with gradle 6, gradle publishes additional metadata for a package. Unfortunately the bintray gradle plugin link:{bintray-bug}[doesn't currently support this].
+
+Referencing a package on bintray with missing gradle metadata causes a build error like this:
+
+[source,shell]
+----
+Could not determine the dependencies of task ':processSpring'.
+> Could not resolve all task dependencies for configuration ':detachedConfiguration45'.
+   > Could not find io.openapiprocessor:openapi-processor-spring:1.0.0.M15.
+     Searched in the following locations:
+       - https://repo.maven.apache.org/maven2/io/openapiprocessor/openapi-processor-spring/1.0.0.M15/openapi-processor-spring-1.0.0.M15.pom
+     If the artifact you are trying to retrieve can be found in the repository but without metadata in 'Maven POM' format, you need to adjust the 'metadataSources { ... }' of the repository declaration.
+----
+
+It is possible to disable the additional gradle metadata but there is a better solution that doesn't need the bintray plugin.
+
+== replacing the bintray plugin
+
+The mentioned link:{bintray-bug}[bintray issue] shows a workaround with some code that "patches" the bintray publishing. I try to avoid "funny" code in the `build.gradle` because it reduces readability. Especially for other people that do not know what it is supposed to do.
+
+Another comment suggests using the maven-publish plugin.
+
+That is interesting because it is very simple, it fixes the issue, and it reduces the number of plugins required for publishing. Too good to be true!
+
+All there is to do is configuring a maven repository for publishing with a special bintray url:
+
+[source,groovy]
+----
+publishing {
+    publications {
+        // same as with bintray plugin
+    }
+
+    repositories {
+        maven {
+          name = "bintray"
+          url = uri("https://api.bintray.com/maven/openapi-processor/primary/${project.name}/;publish=1;override=0")
+          credentials {
+            username = bintrayUser
+            password = bintrayKey
+          }
+        }
+    }
+}
+----
+
+The description of the link:{bintray-api}[api, window="_blank"] uses three placeholders
+
+----
+/maven/:subject/:repo/:package/:file_path[;publish=0/1][;override=0/1]
+----
+
+* :subject, the user or organization
+* :repo, the repository name
+* :package, the package name, i.e. the artifact id.
+* :file_path, the file path in the repository, this is automatically added by the maven-publish plugin.
+* publish & override matrix parameters, they control if the artifacts should be published (false/true) and if it can be overridden (false/true).
+
+Running the `publish<Publication>To<RepositoryName>Repository` task with `--info` will log the full url, e.g.
+
+----
+https://api.bintray.com/maven/openapi-processor/primary/openapi-processor-spring/;publish=1;override=0/io/openapiprocessor/openapi-processor-spring/1.0.0.M15x/openapi-processor-spring-1.0.0.M15.jar'
+----
+
+The `publish...` task appends the :file_path at the end of the url. That looks a bit strange with the matrix parameters in the middle. That's ok though, because the matrix parameters don't have to be at the end (like query parameters).
+
+Of course there is another link:{bintray-bug}[issue, window="_blank"]. Gradle does not only add gradle specific metadata but also additional .sha256 and .sha512 checksum files. Those extra files seem to confuse bintray, and the checksum files end up in an additional wrong folder.
+
+Luckily this is easy to fix by disabling the new checksum files (for now) with the following property in `gradle.properties`:
+
+----
+systemProp.org.gradle.internal.publish.checksums.insecure=true
+----
+
+
+First goal reached. It fixes the metadata issue, and the bintray plugin is no longer required.
+
+
+== replacing the artifactory plugin
+
+If maven-publish works for bintray it should work for artifactory too. It does, it just needs a different repository url.
+
+[source,groovy]
+----
+publishing {
+    publications {
+        // same as with bintray/artifactory plugin
+    }
+
+    maven {
+      name = "bintray-snapshots"
+      url = uri("https://oss.jfrog.org/oss-snapshot-local/")
+      credentials {
+        username = bintrayUser
+        password = bintrayKey
+      }
+    }
+}
+----
+
+
+Second goal reached. The artifactory plugin is no longer required.
+
+
+== automatically switching repository
+
+
+What is left todo is to automatically select the correct repository. Snapshots should use the "bintray-snapshots" repository and normal releases should use the "bintray" repository.
+
+The gradle documentation shows the following solution:
+
+[source,groovy]
+----
+publishing {
+    repositories {
+        maven {
+            def releaseRepository = uri("https://api.bintray.com/maven/openapi-processor/primary/${project.name}/;publish=1;override=0")
+            def snapshotRepository = uri("https://oss.jfrog.org/oss-snapshot-local/")
+            url = version.endsWith('SNAPSHOT') ? snapshotRepository : releaseRepository
+        }
+    }
+}
+----
+
+Simple enough and easy to understand. :-)
+
+
+== conclusion
+
+There are probably limitations regarding specific bintray and artifactory features that are not available using maven-publish, but it looks like that it is not an issue for simple publishing.
+
+The advantages are:
+
+* just one plugin instead of three plugins for publishing
+* simpler configuration with less duplication
+
+
+That's it. :-)
+
+
+
+== bintray - getting started
+
+Bintray is a bit confusing at first because there are 3 parts involved.
+
+The 3 parts are:
+
+. a bintray repository. It will contain only our own (in my case maven) packages published to it. To load the packages from the repository we can add it to gradles `repositories` block. For example:
++
+[source,groovy]
+----
+repositories {
+  maven {
+    setUrl("https://dl.bintray.com/openapi-processor/primary")
+  }
+}
+----
++
+where `openapi-processor` is the (bintray) user or organization (organization in my case), and `primary` is a (there can be more) repository in the account.
++
+The documentation uses the bintray gradle plugin to upload our package to the bintray repository.
+
+. then there is *jcenter*, a public repository like maven central, that publishes the packages of many open source projects under a common repository.
++
+Gradle has built-in support for jcenter:
++
+[source,groovy]
+----
+repositories {
+  maven {
+    jcenter()
+  }
+}
+----
+
+. and last there is an artifactory repository *https://oss.jfrog.org/oss-snapshot-local* that is used to publish *SNAPSHOT* versions.
++
+The documentation uses the artifactory gradle plugin to upload snapshots.
+
+
+The bintray repository is the starting point. After connecting it to *jcenter* we can:
+
+* publish a new package version to bintray, and it will automatically be published to jcenter,
+
+* and publish new snapshot releases to oss.jfrog.org.
+
+Here a couple of links that helped me with the initial publishing setup:
+
+A few blogs articles:
+
+* link:{blog-bintray}[Publishing to Bintray, window="_blank"]
+* link:{blog-snapshots}[Publishing Snapshots, window="_blank"]
+* link:{blog-jcenter}[Publishing to JCenter, window="_blank"]
+
+Bintray documentation:
+
+* link:{bintray-gs}[Getting Started, window="_blank"]
+* link:{bintray-repo}[Managing Repositories, window="_blank"]
+* link:{bintray-snapshots}[Deploying Snapshots, window="_blank"]

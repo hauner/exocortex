@@ -1,0 +1,159 @@
+@tailwind base;
+@tailwind components;
+
+
+/* >> custom components ============================================ */
+
+/* default button */
+
+/*
+.btn {
+  @apply font-bold py-2 px-4 rounded;
+}
+
+.btn:focus {
+  @apply outline-none;
+}
+
+.btn:disabled {
+  @apply opacity-50 cursor-default;
+}
+
+.btn-blue {
+  @apply bg-blue-500 text-white;
+}
+
+.btn-blue:hover {
+  @apply bg-blue-700;
+}
+
+.btn-tab {
+  @apply text-blue-500;
+}
+
+.btn-tab:hover {
+  @apply bg-blue-700;
+}
+
+ */
+
+
+
+/* << custom components ============================================ */
+
+
+@tailwind utilities;
+
+
+/* >> custom utilities ============================================== */
+
+a {
+  text-decoration: underline dotted /* text-gray-500 */ #a0aec0;
+}
+
+a:hover {
+  @apply text-blue-800;
+}
+
+@responsive {
+  .w-sidebar {
+    width: 350px;
+    min-width: 350px;
+  }
+
+  .w-main {
+    max-width: calc(100% - 350px);
+  }
+}
+
+.tracking-heavy {
+  letter-spacing: 0.25em;
+}
+
+.dbg-b {
+  outline: 1px solid black;
+}
+
+/* asciidoctor */
+
+.asciidoctor {
+  color: #646464;
+}
+
+.asciidoctor h2 {
+  @apply text-xl mb-4 text-gray-800;
+}
+
+.asciidoctor h3 {
+  @apply text-lg mb-4 text-gray-800;
+}
+
+.asciidoctor .listingblock > .title {
+  @apply text-sm mb-1 font-bold;
+}
+
+.asciidoctor p {
+  @apply mb-4;
+}
+
+.asciidoctor p.tableblock {
+  @apply m-0;
+}
+
+
+.asciidoctor ul {
+  list-style-type: disc;
+  margin-left: 1.5rem;
+}
+
+.asciidoctor .arabic ol {
+  list-style-type: decimal;
+  margin-left: 1.5rem;
+}
+
+.asciidoctor li {
+  padding-left: .25em;
+}
+
+.asciidoctor table {
+  @apply table-auto w-full mb-4;
+}
+
+.asciidoctor table thead tr {
+  @apply border-b-2 border-gray-300;
+}
+
+.halign-left {
+  @apply text-left;
+}
+
+.asciidoctor table tbody tr {
+  @apply border-b border-gray-300;
+}
+
+.asciidoctor table th {
+  @apply  px-4 py-2;
+}
+
+.asciidoctor table td {
+  @apply  px-4 py-2;
+}
+
+.asciidoctor table tbody tr:nth-child(2n+1) {
+  @apply bg-gray-100;
+}
+
+.asciidoctor blockquote {
+  @apply italic border-l-4 border-gray-300 mb-4 p-4;
+}
+
+.asciidoctor a {
+  text-decoration: underline dotted /* text-gray-500 */ #a0aec0;
+}
+
+.asciidoctor a:hover {
+  @apply text-blue-800;
+}
+
+/* << custom utilities ============================================== */
+

@@ -1,46 +1,34 @@
-<header id="header">
-  <h1>
-    <a [routerLink]="['/']" class="logo">
-      <img src="assets/avatar-480x480.png" alt="avatar"/>
-      <span>Software Noise</span>
-    </a>
-  </h1>
+<header class="border-b bg-white">
 
-  <nav class="links">
+  <div class="m-0 px-3 max-w-screen-xl mx-auto flex items-center justify-between">
 
-    <ul style="display: flex; justify-content: flex-end; height: 100%; align-items: center; margin-right: 2rem;">
+    <h1 class="text-xs uppercase tracking-heavy font-semibold leading-10 pr-3 border-r">
+      <a [routerLink]="['/']" class="flex space-x-1 items-center hover:text-blue-800">
+        <img src="assets/avatar-480x480.png" alt="avatar" class="w-8"/>
+        <span>Software&nbsp;Noise</span>
+      </a>
+    </h1>
 
-      <li>
-        <a href="https://hauner.github.io/openapi-processor" class="oap">
-          <img src="assets/openapi-processor-p.svg" alt="openapi-processor"/>
-          <span>openapi-processor</span>
+    <nav class="flex items-center divide-x divide-gray-400">
+
+      <div class="text-xs uppercase tracking-heavy font-light mx-2">
+        <a href="https://hauner.github.io/openapi-processor" class="flex items-center hover:text-blue-800">
+          <img src="assets/openapi-processor-p.svg" class="w-12 text-5xl"/>
+          <span class="hidden sm:inline">openapi-processor</span>
+          <span class="sm:hidden">oap</span>
         </a>
-      </li>
+      </div>
 
-      <li class="hide">
-        <a href="https://openapi-processor-playground.appspot.com/" class="oap">
-          <img src="assets/openapi-processor-p.svg" alt="oappenapi-processor playground"/>
-          <span>playground</span>
+      <div class="text-xs uppercase tracking-heavy font-light pl-2">
+        <a href="https://openapi-processor-playground.appspot.com/" class="flex items-center hover:text-blue-800">
+<!--          <img src="assets/openapi-processor-p.svg" class="w-12 text-5xl"/>-->
+          <span class="hidden sm:inline">playground</span>
+          <span class="sm:hidden">play</span>
         </a>
-      </li>
+      </div>
 
-    </ul>
+    </nav>
 
-  </nav>
+  </div>
 
-  <!--
-  <nav class="main">
-    <ul>
-      <li class="search">
-        <a class="fa-search" href="#search">Search</a>
-        <form id="search" method="get" action="#">
-          <input type="text" name="query" placeholder="Search" />
-        </form>
-      </li>
-      <li class="menu">
-        <a class="fa-bars" routerLink="" (click)="showMenu($event)">Menu</a>
-      </li>
-    </ul>
-  </nav>
--->
 </header>

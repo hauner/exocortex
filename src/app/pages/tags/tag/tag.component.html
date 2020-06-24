@@ -1,40 +1,42 @@
-<div id="wrapper">
+<app-header></app-header>
 
-  <app-header></app-header>
+<main class="m-0 lg:px-5 py-5 max-w-screen-xl mx-auto">
 
-  <div id="main">
+  <!--
+  <section class="bg-white p-2 mb-4 border">
+    <p>top banner</p>
+  </section>
+  -->
 
-    <!-- tag articles -->
-    <section>
+  <div class="lg:flex lg:flex-row-reverse">
 
-      <div class="mini-posts">
+    <section class="flex-col lg:flex-grow">
 
-          <article class="mini-post" *ngFor="let blog of tagLinks$ | async">
+      <article *ngFor="let blog of tagLinks$ | async" class="p-4 my-5 border bg-white">
+        <header class="text-center">
+          <a [routerLink]="[blog.route]" class="font-semibold">{{blog.title}}</a>
+        </header>
 
-            <header>
-              <h3><a [routerLink]="[blog.route]">{{blog.title}}</a></h3>
+        <div class="flex justify-center text-xs text-gray-500 mt-2">
+          <app-tag-list [tags]="blog.tags"></app-tag-list>
+        </div>
 
-              <div class="tags">
-                <ul class="stats">
-                  <li *ngFor="let tag of blog.tags">
-                    <a [routerLink]="['/tags', tag]">
-                      <span class="icon solid fa-tag">{{tag}}</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
+        <div class="text-center">
+          <time class="text-xs text-gray-500" [attr.datetime]="blog.date">{{blog.date | date:'dd. MMM yyyy'}}</time>
+        </div>
 
-              <time class="published" [attr.datetime]="blog.date">{{blog.date | date:'dd. MMM yyyy'}}</time>
-            </header>
-
-          </article>
-
-      </div>
+      </article>
 
     </section>
 
+    <app-sidebar [showArticles]="true"></app-sidebar>
+
   </div>
 
-  <app-sidebar [showArticles]="true"></app-sidebar>
+  <!--
+    <footer class="p-2 mt-4 border">
+      <p>bottom footer</p>
+    </footer>
+  -->
 
-</div>
+</main>

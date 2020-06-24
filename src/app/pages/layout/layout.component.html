@@ -1,0 +1,70 @@
+<app-header></app-header>
+
+<!-- Main Content -->
+<main class="m-0 p-5 max-w-screen-xl mx-auto">
+
+    <!--
+    <section class="bg-white p-2 mb-4 border">
+      <p>top banner</p>
+    </section>
+    -->
+
+    <div class="lg:flex lg:flex-row-reverse">
+
+      <!-- Content -->
+      <section class="lg:flex-grow bg-green-100">
+        Content
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sumenda potius quam expetenda. Nihil opus est exemplis hoc facere longius.
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sumenda potius quam expetenda. Nihil opus est exemplis hoc facere longius.
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sumenda potius quam expetenda. Nihil opus est exemplis hoc facere longius.
+        </p>
+      </section>
+
+      <!-- Sidebar -->
+      <aside class="lg:w-sidebar bg-gray-100 p-4 divide-y">
+
+        <section class="flex flex-col mb-8">
+          <a [routerLink]="['/']" class="flex justify-center lg:justify-start">
+            <img src="assets/avatar-480x480.png" alt="avatar" class="w-20"/>
+          </a>
+          <header class="text-xs uppercase tracking-heavy font-light mt-4 text-center lg:text-left whitespace-no-wrap">
+            <p>my Exocortex Memory :-)</p>
+          </header>
+        </section>
+
+
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sumenda potius quam expetenda. Nihil opus est exemplis hoc facere longius.
+        </p>
+
+
+        <footer class="flex flex-col uppercase tracking-heavy text-gray-500">
+          <div class="flex justify-center lg:justify-start space-x-4 uppercase tracking-heavy text-gray-500 my-8">
+            <a href="https://twitter.com/MartinHauner" class="flex items-center hover:text-blue-800">
+              <ion-icon name="logo-twitter"></ion-icon>
+            </a>
+            <a href="https://github.com/hauner" class="flex items-center hover:text-blue-800">
+              <ion-icon name="logo-github"></ion-icon>
+            </a>
+          </div>
+
+          <div class="text-center lg:text-left" style="font-size: 0.5rem">&copy; Martin Hauner</div>
+          <div class="text-center lg:text-left" style="font-size: 0.5rem">built with <a href="https://github.com/scullyio/scully" class="underline hover:text-blue-800">Scully</a> & <a href="https://tailwindcss.com" class="underline hover:text-blue-800">tailwindcss</a> </div>
+        </footer>
+
+      </aside>
+
+    </div>
+
+  <!--
+    <footer class="p-2 mt-4 border">
+      <p>bottom footer</p>
+    </footer>
+    -->
+
+</main>

@@ -1,0 +1,11 @@
+a:first-child {
+  padding-left: 0;
+}
+
+a:last-child {
+  padding-right: 0;
+}
+
+a {
+  text-decoration: underline dotted /* text-gray-500 */ #a0aec0;
+}
