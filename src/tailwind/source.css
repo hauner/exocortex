@@ -47,6 +47,14 @@
 
 /* >> custom utilities ============================================== */
 
+a {
+  text-decoration: underline dotted /* text-gray-500 */ #a0aec0;
+}
+
+a:hover {
+  @apply text-blue-800;
+}
+
 @responsive {
   .w-sidebar {
     width: 350px;
@@ -110,7 +118,7 @@
 }
 
 .halign-left {
-  @apply text-left
+  @apply text-left;
 }
 
 .asciidoctor table tbody tr {
@@ -130,7 +138,7 @@
 }
 
 .asciidoctor blockquote {
-  @apply italic border-l-4 border-gray-300 mb-4 p-2;
+  @apply italic border-l-4 border-gray-300 mb-4 p-4;
 }
 
 .asciidoctor a {

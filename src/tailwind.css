@@ -17917,6 +17917,17 @@ video {
 
 /* >> custom utilities ============================================== */
 
+a {
+  -webkit-text-decoration: underline dotted /* text-gray-500 */ #a0aec0;
+          text-decoration: underline dotted /* text-gray-500 */ #a0aec0;
+}
+
+a:hover {
+  --text-opacity: 1;
+  color: #2c5282;
+  color: rgba(44, 82, 130, var(--text-opacity));
+}
+
 .w-sidebar {
   width: 350px;
   min-width: 350px;
@@ -17993,7 +18004,7 @@ video {
 }
 
 .halign-left {
-  text-align: left
+  text-align: left;
 }
 
 .asciidoctor table tbody tr {
@@ -18030,7 +18041,7 @@ video {
   border-color: #e2e8f0;
   border-color: rgba(226, 232, 240, var(--border-opacity));
   margin-bottom: 1rem;
-  padding: 0.5rem;
+  padding: 1rem;
 }
 
 .asciidoctor a {
