@@ -17,13 +17,8 @@
           <a [routerLink]="[blog.route]" class="font-semibold">{{blog.title}}</a>
         </header>
 
-        <div class="flex divide-x justify-center uppercase tracking-widest text-xs text-gray-500 mt-2">
-          <ng-container *ngFor="let tag of blog.tags">
-            <a [routerLink]="['/tags', tag]" class="flex items-center underline px-2 hover:text-blue-800">
-              <ion-icon name="pricetag"></ion-icon>
-              <span class="pl-1">{{tag}}</span>
-            </a>
-          </ng-container>
+        <div class="flex justify-center text-xs text-gray-500 mt-2">
+          <app-tag-list [tags]="blog.tags"></app-tag-list>
         </div>
 
         <div class="text-center">
