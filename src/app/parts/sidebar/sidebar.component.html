@@ -18,13 +18,8 @@
           <a [routerLink]="[blog.route]" class="font-light text-sm">{{blog.title}}</a>
         </header>
 
-        <div class="flex divide-x justify-center lg:justify-start uppercase tracking-widest text-xs text-gray-500 mt-2">
-          <ng-container *ngFor="let tag of blog.tags">
-            <a [routerLink]="['/tags', tag]" class="flex items-center underline px-2 hover:text-blue-800">
-              <ion-icon name="pricetag"></ion-icon>
-              <span class="pl-1">{{tag}}</span>
-            </a>
-          </ng-container>
+        <div class="text-xs text-gray-500 mt-2">
+          <app-tag-list [tags]="blog.tags"></app-tag-list>
         </div>
 
         <div class="text-center lg:text-left">
@@ -41,10 +36,10 @@
     <footer class="flex flex-col uppercase tracking-heavy text-gray-500">
       <div class="flex justify-center lg:justify-start space-x-4 uppercase tracking-heavy text-gray-500 my-8">
         <a href="https://twitter.com/MartinHauner" class="flex items-center hover:text-blue-800">
-          <ion-icon name="logo-twitter"></ion-icon>
+          <i class="fab fa-twitter"></i>
         </a>
         <a href="https://github.com/hauner" class="flex items-center hover:text-blue-800">
-          <ion-icon name="logo-github"></ion-icon>
+          <i class="fab fa-github"></i>
         </a>
       </div>
 

@@ -7,13 +7,8 @@
     <section class="flex-col lg:flex-grow">
 
       <section class="p-4 bg-white border">
-        <div class="flex flex-wrap justify-center divide-x uppercase tracking-widest text-xs leading-loose text-gray-500 mt-2">
-          <ng-container *ngFor="let tag of tags$ | async">
-            <a [routerLink]="['/tags', tag]" class="flex items-center underline px-2 hover:text-blue-800">
-              <ion-icon name="pricetag"></ion-icon>
-              <span class="pl-1">{{tag}}</span>
-            </a>
-          </ng-container>
+        <div class="flex justify-center text-xs leading-loose text-gray-500 mt-2">
+          <app-tag-list [tags]="tags$ | async"></app-tag-list>
         </div>
       </section>
 

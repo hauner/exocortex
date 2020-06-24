@@ -1,0 +1,8 @@
+<div class="flex flex-wrap justify-center lg:justify-start divide-x uppercase tracking-widest">
+  <ng-container *ngFor="let tag of tags">
+    <a [routerLink]="['/tags', tag]" class="flex items-center px-2 underline hover:text-blue-800">
+      <i class="fas fa-tag"></i>
+      <span class="pl-1">{{tag}}</span>
+    </a>
+  </ng-container>
+</div>
