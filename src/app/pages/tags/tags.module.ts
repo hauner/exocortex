@@ -1,5 +1,5 @@
 import {CommonModule} from '@angular/common';
-import {NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {ScullyLibModule} from '@scullyio/ng-lib';
 import {TagsRoutingModule} from './tags-routing.module';
 import {TagsComponent} from './tags.component';
@@ -16,6 +16,7 @@ import { TagComponent } from './tag/tag.component';
     TagsRoutingModule,
     ScullyLibModule,
     PartsModule
-  ]
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class TagsModule {}
