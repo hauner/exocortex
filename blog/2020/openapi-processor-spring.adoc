@@ -10,9 +10,9 @@ tags:
 :imagesdir: assets
 :openapi: https://www.openapis.org/
 :springboot: https://spring.io/projects/spring-boot
-:oap-docs: https://hauner.github.io/openapi-processor
-:oap-gradle: https://hauner.github.io/openapi-processor/gradle
-:oap-play: https://openapi-processor-playground.appspot.com
+:oap-docs: https://docs.openapiprocessor.io
+:oap-gradle: https://docs.openapiprocessor.io/gradle
+:oap-play: https://playground.openapiprocessor.io
 
 link:{oap-docs}[*openapi-processor-spring*] (or short: _oap-spring_) is an link:{openapi}[OpenAPI]
 interface & model Java code generator for link:{springboot}[Spring Boot]. It is generating code
