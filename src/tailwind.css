@@ -18060,6 +18060,10 @@ a:hover {
   color: rgba(44, 82, 130, var(--text-opacity));
 }
 
+.asciidoctor .text-center a.image {
+  display: inline-block;
+}
+
 /* << custom utilities ============================================== */
 
 @media (min-width: 640px) {

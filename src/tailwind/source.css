@@ -155,5 +155,9 @@ a:hover {
   @apply text-blue-800;
 }
 
+.asciidoctor .text-center a.image {
+  display: inline-block;
+}
+
 /* << custom utilities ============================================== */
 
