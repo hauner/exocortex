@@ -1,0 +1,283 @@
+---
+date: 2020-07-18
+title: 'configuring openapi-processor-maven'
+description: 'configure plugin to run an openapi-processor'
+published: true
+tags:
+  - openapi
+  - maven
+  - spring-boot
+---
+:imagesdir: assets
+:openapi: https://www.openapis.org/
+:springboot: https://spring.io/projects/spring-boot
+:spring-init: https://start.spring.io/
+:oap-docs: https://docs.openapiprocessor.io
+:oap-spring: https://docs.openapiprocessor.io/spring
+:oap-maven: https://docs.openapiprocessor.io/maven
+:oap-samples: https://docs.openapiprocessor.io/samples
+:oap-play: https://playground.openapiprocessor.io
+:oap-docs: https://docs.openapiprocessor.io
+
+
+
+== what is openapi-processor?
+
+openapi-processor is a small framework to process OpenAPI yaml files. Currently, openapi-processor provides java code generation for Spring Boot and conversion to json.
+
+It does support gradle and maven to run any openapi-processor as part of the build process.
+
+See the link:{oap-docs}[documentation] for more. There is also a link:{oap-playground}[playground] to preview the processors.
+
+The **maven plugin** is the newest member of the openapi-processor family, and the following sections provide a short introduction into its configuration.
+
+
+== introduction
+
+I will just show the configuration of the maven plugin for integrating an OpenAPI yaml file. I don't describe the creation of a Spring Boot application.
+
+Integrating it in a new Spring Boot starter project created by link:{spring-init}[Spring Initializr] (maven & web-mvc) should work without issues.
+
+To see a working demo project take a look at the link:{oap-samples}[openapi-processor samples]. The available samples have a `pom.xml`, and a `build.gradle` file, so you can build them using maven or gradle.
+
+
+=== what to expect
+
+Assuming a (simple) OpenAPI yaml file:
+
+[source,yaml]
+----
+openapi: 3.0.2
+    info:
+      title: ping api
+      version: 1.0.0
+
+    paths:
+      /ping:
+        get:
+          tags:
+            - ping
+          summary: returns a single "pong" string.
+          description: super simple endpoint.
+          responses:
+            '200':
+              description: pong
+              content:
+                text/plain:
+                  schema:
+                    type: string
+----
+
+the link:{oap-maven}[openapi-processor-maven plugin] will generate a java interface by running the link:{oap-spring}[openapi-processor-spring] (in short oap-spring).
+
+The interface generated for the simple api will look like this (the package name `io.openapiprocessor.simple` is configurable):
+
+
+[source,java]
+----
+package io.openapiprocessor.simple.api;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+
+public interface PingApi {
+
+    @GetMapping(path = "/ping", produces = {"text/plain"})
+    String getPing();
+
+}
+----
+
+You can now implement the interface to provide a working endpoint in your Spring Boot application.
+
+The sample implements the interface with a hardcoded result like this:
+
+
+[source,java]
+----
+package io.openapiprocessor.simple;
+
+import  io.openapiprocessor.simple.api.PingApi;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+
+@RestController
+public class PingController implements PingApi {
+
+    @Override
+    public String getPing () {
+        return "pong";
+    }
+
+}
+----
+
+
+Now let's look at the necessary configuration to generate the interface from maven.
+
+
+== maven configuration
+
+=== repository
+
+The openapi-processor artifacts are on jcenter, so you may need to add the jcenter repository to the `pom.xml`.
+
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" ... >
+    <repositories>
+        <repository>
+          <id>jcenter</id>
+          <url>https://jcenter.bintray.com/</url>
+        </repository>
+    </repositories>
+</project>
+----
+
+=== adding the plugin
+
+Adding the plugin itself is easy. It is the same as for any other maven plugin:
+
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" ... >
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>io.openapiprocessor</groupId>
+                <artifactId>openapi-processor-maven-plugin</artifactId>
+                <version>1.0.0.M2</version>
+
+                <!-- ... next step ... -->
+            </plugin>
+        </plugins>
+    </build>
+</project>
+----
+
+=== adding a processor
+
+To tell the plugin which openapi-processor we want to run we add the processor as a `<dependency>` of the plugin:
+
+[source,xml]
+----
+<plugin>
+    <dependencies>
+        <dependency>
+            <groupId>io.openapiprocessor</groupId>
+            <artifactId>openapi-processor-spring</artifactId>
+            <version>1.0.0.M15</version>
+        </dependency>
+    </dependencies>
+
+    <!-- ... next step ... -->
+</plugin>
+----
+
+=== configuring the OpenAPI source file
+
+Next step is to configure the OpenAPI source file the processor should process. Using the `<apiPath/>` configuration we tell the plugin where to find the OpenAPI yaml. The recommendation is to put the api yaml into `src/api`:
+
+[source,xml]
+----
+<plugin>
+    <configuration>
+        <apiPath>${project.basedir}/src/api/openapi.yaml</apiPath>
+    </configuration>
+
+    <!-- ... next step ... -->
+</plugin>
+----
+
+=== configuring openapi-processor-spring
+
+Now we need to configure the spring processor by adding an `<execution>` for the `process` maven `<goal>`:
+
+[source,xml]
+----
+<plugin>
+    <executions>
+        <execution>
+            <phase>generate-sources</phase> <!--1-->
+
+            <configuration>
+                <id>spring</id> <!--2-->
+
+                <options> <!--3-->
+                    <values>
+                        <targetDir>${project.basedir}/target/generated-sources/openapi</targetDir> <!--4-->
+                        <mapping>${project.basedir}/src/api/mapping.yaml</mapping> <!--5-->
+                    </values>
+                </options>
+            </configuration>
+
+            <goals>
+                <goal>process</goal> <!--6-->
+            </goals>
+        </execution>
+    </executions>
+</plugin>
+----
+
+<1> `*<phase/>*` **phase** (mandatory): openapi-processor-spring generates java code, so the `<phase/>` should be `generate-source`. This tells maven to run the goal before compiling anything.
+
+<2> `*<id/>*` **processor id** (mandatory): this configures the openapi-processor the goal should run. The processor id must match exactly with the name of the processor. The convention is, that the last part of the processors artifact name is the processor id.
++
+If the artifact of a processor is called `openapi-processor-x`, the last part `x` is the id of the processor. For example for `openapi-processor-spring` the id is `spring`, for `openapi-processor-json` the id is `json`.
+
+<3> `*<options/>*` (mandatory): **processor specific options**:
+
+<4> `*<targetDir/>*` **target directory** (mandatory): the directory the processor should use for its output.
+
+<5> `*<mapping/>*` (mandatory). oap-spring configuration. In the simplest form it just configures the package name for the generated source files but usually you will configure some type mappings. Type mapping is a powerful feature of oap-spring to map OpenAPI schemas to existing java types. See xref:spring::index.doc[openapi-processor-spring] for more.
+
+<6> `*<goal/>*` **goal** (mandatory): this is the goal maven should run. Since the plugin does only have a single goal the value is always `process`.
+
+== using the processor output
+
+So far the plugin processes the given openapi yaml and writes the output to the given target directory but maven ignores the output.
+
+The last step is to tell maven to compile the generated files. We use the *build-helper-maven-plugin* to configure it:
+
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" ...>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>oap-sources</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${project.build.directory}/generated-sources/openapi</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+----
+
+This tells the *build-helper-maven-plugin* to add the processors `targetDir` as an additional source folder to the project.
+
+Maven will now include the generated files when it compiles the project, and we can implement the generated interface. There is no need to explicitly run the `process` goal.
+
+The plugin avoids unnecessary re-generation of the source files by "watching" the parent directory of the api, i.e. `${project.basedir}/src/api`.
+
+
+See the link:{oap-maven}[plugin documentation] for more.
+
+
+That's it. pass:[<i class="far fa-smile"></i>]
