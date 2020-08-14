@@ -17967,6 +17967,13 @@ a:hover {
   color: rgba(45, 55, 72, var(--text-opacity));
 }
 
+.asciidoctor h4 {
+  margin-bottom: 0.5rem;
+  --text-opacity: 1;
+  color: #2d3748;
+  color: rgba(45, 55, 72, var(--text-opacity));
+}
+
 .asciidoctor .listingblock > .title {
   font-size: 0.875rem;
   margin-bottom: 0.25rem;
@@ -18062,6 +18069,54 @@ a:hover {
 
 .asciidoctor .text-center a.image {
   display: inline-block;
+}
+
+.asciidoctor .admonitionblock {
+  margin-bottom: 1.5rem;
+}
+
+.asciidoctor .admonitionblock table {
+  position: relative;
+}
+
+.asciidoctor .admonitionblock table tbody tr {
+  border-width: 0;
+}
+
+.asciidoctor .admonitionblock td.content {
+  --bg-opacity: 1;
+  background-color: #f7fafc;
+  background-color: rgba(247, 250, 252, var(--bg-opacity));
+  padding: 1rem;
+  width: 100%;
+}
+
+.asciidoctor .admonitionblock p, .asciidoctor .admonitionblock td.content {
+  font-size: 0.875rem;
+}
+
+.asciidoctor .admonitionblock.important .icon {
+  --bg-opacity: 1;
+  background-color: #f56565;
+  background-color: rgba(245, 101, 101, var(--bg-opacity));
+}
+
+.asciidoctor .admonitionblock .icon {
+  font-size: 0.875rem;
+  --text-opacity: 1;
+  color: #fff;
+  color: rgba(255, 255, 255, var(--text-opacity));
+  font-weight: 500;
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-transform: uppercase;
+  border-radius: 0.25rem;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  transform: translate(-.5rem,-50%);
 }
 
 /* << custom utilities ============================================== */
