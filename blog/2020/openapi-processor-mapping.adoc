@@ -1,0 +1,215 @@
+---
+date: 2020-08-14T00:00:00.000Z
+title: 'openapi-processor-spring type mapping'
+description: 'what is type mapping and how do I map OpenAPI schemas to Java types?'
+published: true
+tags:
+    - openapi
+
+---
+:imagesdir: assets
+:openapi: https://www.openapis.org/
+:springboot: https://spring.io/projects/spring-boot
+:spring-init: https://start.spring.io/
+:oap-docs: https://docs.openapiprocessor.io
+:oap-spring: https://docs.openapiprocessor.io/spring
+:oap-maven: https://docs.openapiprocessor.io/maven
+:oap-gradle: https://docs.openapiprocessor.io/grade
+:oap-samples: https://docs.openapiprocessor.io/samples
+:oap-play: https://playground.openapiprocessor.io
+:oap-docs: https://docs.openapiprocessor.io
+:oap-mapping: https://docs.openapiprocessor.io/spring/mapping
+
+
+== what is openapi-processor?
+
+openapi-processor is a small framework to process OpenAPI yaml files. Currently, openapi-processor provides java code generation for Spring Boot and conversion to json.
+
+It does support link:{oap-gradle}[gradle] and link:{oap-maven}[maven] to run any openapi-processor as part of the build process.
+
+See the link:{oap-docs}[documentation] for more. There is also a link:{oap-playground}[playground] to preview the processors.
+
+
+== openapi-processor-spring
+
+link:{oa-spring}[openapi-processor-spring] (oap-spring) generates server side Java code for Spring Boot from an OpenAPI description. It generates interfaces for the endpoints with all the required Spring annotations, and it generates model classes (simple POJOs) with Jackson annotations for the OpenAPI schemas used in those endpoints.
+
+By creating a controller that `implements` a generated interface it gets easier to implement the expected endpoints. Spring will automatically pick up all annotations on the generated interface methods. You can concentrate on the implementation.
+
+
+=== what is type mapping?
+
+Code generation is tricky. It is impossible to generate the perfect code just from the OpenAPI description. There are many cases where the generator needs our help to generate the code we like.
+
+Just think of collections. OpenAPI has a single schema abstraction to describe collections: the `*array*`. It does not need more.
+
+Using `array` (e.g. `String[]`) in Java is possible (and that is what oap-spring is using by default) but usually we prefer a more powerful and easier to use collection like `List` or `Set` etc.
+
+That is why we need _type mapping_. _Type mapping_ allows us to map an OpenAPI schema to a specific Java class.
+
+The generator does use the mapping to replace *any* occurrence of the given OpenAPI schema in the generated code with the mapped target Java type. It doesn't matter if it is a parameter, response or a property of an object schema.
+
+If an OpenAPI model schema (which would normally generate a POJO class) gets mapped to an existing Java class oap-spring will not generate a (duplicate) POJO class.
+
+=== where to specify type mappings?
+
+Type mapping is part of the openapi-processor yaml configuration file `mapping.yaml`. It should be a sibling of the OpenAPI yaml files (i.e. in the same directory).
+
+The file looks like this:
+
+[source,yaml]
+----
+openapi-processor-mapping: v2 # <1>
+
+options:
+  package-name: io.openapiprocessor.mapping # <2>
+
+map:
+   # java type mappings # <3>
+----
+
+<1> sets the configuration file format. It must be present with version 2 to use the mapping format described below.
+
+<2> sets the Java package for the generated source files.
+
+<3> `map` is the parent key of all type mappings.
+
+
+=== how to specify a type mapping?
+
+Type mapping uses a simple notation to specify a mapping:
+
+[source,yaml]
+----
+
+{collection}:  # <1>
+  {key}: {source type} => {target type} # <2>
+
+----
+
+<1> this defines the mapping collection. All mappings are grouped into a couple of fixed collections: `types`, `parameters`, `responses` and `paths`. A mapping collection can have any number of mappings.
+
+<2> `key` defines what kind of mapping gets defined. For example `type` is the key for a global type mapping in the `types` collection. The value of the key maps a source type to a destination type by using an `\=>` arrow as the *mapping operator*. `{source type}` is the name of an OpenAPI type and `{target type}` is the fully qualified Java class name. Fully qualified because the processor needs the package name to generate an import statement for the target type.
+
+Let's take a look at a few mapping examples. This is just an introduction and doesn't describe all the possibilities. See the link:{oap-mapping}[type mapping] documentation for more.
+
+=== type mapping examples
+
+==== global mapping
+
+The first mapping is the *global* type mapping. Remembering the array example from above we can change it globally to `java.util.Collection`:
+
+[source,yaml]
+----
+map:
+  types: # <1>
+    - type: array => java.util.Collection # <2>
+    - type: Foo => io.openapiprocessor.samples.Foo # <3>
+----
+
+<1> `types` is the list of global type mappings. It is global because it is a direct child of the `map` key.
+<2> `- type` is an actual mapping item, and it says: map the OpenAPI `array` schema type to Java's `java.util.Collection`.
++
+[IMPORTANT]
+====
+the processor assumes that the Java target of `array` has a single generic parameter, and it will automatically use the ``array``'s `item` property type as the generic parameter.
+====
+
+<3> this one maps an OpenAPI schema `Foo` to an existing Java class in our code base.
+
+
+==== path mapping
+
+The second mapping is *path-based* type mapping and it is quite useful. It allows us to limit a mapping rule to a single endpoint. It is not used for any other endpoint.
+
+[source,yaml]
+----
+map:
+  types:
+    - type: array => java.util.Collection # <1>
+
+  paths: # <2>
+    /foo:
+      types:
+      - type: array => java.util.List # <3>
+----
+
+<1> the global array mapping from the previous example.
+
+<2> `paths` is a map, that allows us to add mappings for specific endpoints. Each key (like `/foo`) is an endpoint path. This is similar to the OpenAPI description itself.
+
+<3> a path based mapping. It will override the global array mapping and use `List` instead of the `Collection` from the global mapping for the `/foo` endpoint method.
+
+
+==== parameter & response mapping
+
+The third and fourth mapping collections are mapping by *parameter name* and by *response content*:
+
+[source,yaml]
+----
+map:
+  parameters: # <1>
+    - name: date => java.time.ZonedDateTime # <2>
+
+  responses: # <3>
+    - content: application/vnd.foo => io.openapiprocessor.samples.Foo # <4>
+----
+
+<1> `parameters` is the list of global parameter mappings.
+<2> `- name` adds a mapping, this one says: (globally) map all parameters with name `date` to the Java type `java.time.ZonedDateTime`.
+<3> `responses` is the list of global response mappings.
+<4> `-content` adds a mapping, and it says: map the content type `application/vnd.foo` to the Java type `io.openapiprocessor.samples.Foo`.
+
+
+It is not clear yet how useful these two are at the global level. The `date` parameter is for example easier to handle with a simple global type mapping like this:
+
+[source,yaml]
+----
+map:
+  types:
+    - type: string:date-time => java.time.ZonedDateTime # <1>
+----
+
+<1> maps the primitive `string` type with the format `date-time` to the Java class `java.time.ZonedDateTime`.
+
+
+Both mappings are available as path based mappings and that's a lot more useful than the global parameter & response mapping. It can be used to override global mappings for a specific endpoint:
+
+[source,yaml]
+----
+map:
+  paths:
+    /foo:
+      parameters:
+        - name: date => java.time.ZonedDateTime
+
+      responses:
+        - content: application/vnd.foo => io.openapiprocessor.samples.Foo
+----
+
+
+==== add parameter mapping
+
+The last example is the most useful part of path based parameter mapping: *parameter add mapping*. It allows us to add parameters to an endpoint which are not part of the OpenAPI description.
+
+This allows us to pass "technical" parameters to an endpoint we want to implement:
+
+[source,yaml]
+----
+map:
+  paths:
+    /foo:
+      parameters:
+        - add: processingId => java.lang.String # <1>
+        - add: request => javax.servlet.http.HttpServletRequest # <2>
+----
+
+<1> add a `String processingId` parameter to the controller method that is provided by an `HandlerMethodArgumentResolver`.
+<2> add a `HttpServletRequest request` parameter to the controller method, so we can look at all the details of the request.
+
+=== there is more...
+
+This was just a small introduction into the mapping feature of openapi-processor-spring. See the link:{oap-mapping}[type mapping] documentation for a more complete description.
+
+
+That's it. pass:[<i class="far fa-smile"></i>]
