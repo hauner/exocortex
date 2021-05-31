@@ -19,7 +19,7 @@ tags:
 :oap-play: https://playground.openapiprocessor.io
 :oap-docs: https://docs.openapiprocessor.io
 :oap-mapping: https://docs.openapiprocessor.io/spring/mapping
-
+:oap-playground: https://playground.openapiprocessor.io
 
 == what is openapi-processor?
 
