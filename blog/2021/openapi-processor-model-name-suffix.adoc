@@ -1,0 +1,131 @@
+---
+date: 2021-05-31
+title: 'openapi-processor-spring 2021.4 & micronaut 2021.2'
+description: 'new releases published.'
+published: true
+tags:
+  - openapi
+  - spring-boot
+  - micronaut
+---
+:imagesdir: assets
+:openapi: https://www.openapis.org/
+:springboot: https://spring.io/projects/spring-boot
+:oap: https://docs.openapiprocessor.io/home/home.html
+:oap-docs: https://docs.openapiprocessor.io
+:oap-gradle: https://docs.openapiprocessor.io/gradle
+:oap-play: https://playground.openapiprocessor.io
+:oap-spring: https://github.com/openapi-processor/openapi-processor-spring/releases/tag/v2021.4
+:oap-micronaut: https://github.com/openapi-processor/openapi-processor-micronaut/releases/tag/v2021.2
+
+== what is openapi-processor?
+
+link:{oap}[openapi-processor] is a small framework to process OpenAPI yaml files. Currently, openapi-processor provides java code generation for Spring Boot, Micronaut and conversion to json.
+
+It does support link:{oap-gradle}[gradle] and link:{oap-maven}[maven] to run any openapi-processor as part of the build process.
+
+See the link:{oap-docs}[documentation] for more. There is also a link:{oap-playground}[playground] to preview the processors.
+
+== model name suffix
+
+apart from a couple of bug fixes and improvements for multipart request and bean-validations (see the link:{oap-spring}[release notes] for the details, its the same for spring & micronaut) in the new releases openapi-processor is now able to automatically add a suffix to the generated model classes.
+
+This is enabled by simply configuring the `model-name-suffix` in the `mapping.yaml`:
+
+[source,yaml]
+----
+openapi-processor-mapping: v2
+
+options:
+  package-name: io.openapiprocessor.sample
+  model-name-suffix: Resource # or Dto or ...
+----
+
+The `model-name-suffix` option sets a suffix that is automatically appended to all generated model and enum classes.
+
+The suffix helps to
+
+* avoid duplicate class names in generated code and normal code
+* makes it easier to recognize which role or in which context a class is used. Is it a data transfer class or is it a domain class?
+* keeps the suffix "_noise_" out of the OpenAPI description
+
+Usually you will separate the classes by putting them in different packages. This helps to distinguish the classes, but when both are used in the same code, i.e. when converting one format to the other, it is a lot easier to distinguish them by their class name instead of their package name.
+
+If a schema name from the OpenAPI description already ends with the `model-name-suffix`, the processor will **not** append the suffix. This allows to migrate an existing api with a suffix in the API to `model-name-suffix` step by step.
+
+=== Example:
+
+*OpenAPI*
+[source,yaml]
+----
+paths:
+  /foo:
+    get:
+      responses:
+        '200':
+          description: the foo result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Foo' # <1>
+
+components:
+  schemas:
+
+    Foo:
+      type: object
+      properties:
+        nested:
+          $ref: '#/components/schemas/BarResource' # <1>
+
+    BarResource:
+      type: object
+      properties:
+        prop:
+          type: string
+----
+
+*mapping.yaml*
+[source,yaml]
+----
+openapi-processor-mapping: v2
+
+options:
+  package-name: io.openapiprocessor.sample
+  model-name-suffix: Resource # <2>
+----
+
+*Java*
+[source,java]
+----
+// interface
+public interface Api {
+
+    @Mapping("/foo")
+    FooResource getFoo(); // <3>
+
+}
+
+// pojos
+public class FooResource { // <3>
+
+    // ...
+
+    @JsonProperty("nested")
+    private BarResource nested;
+
+    // ...
+}
+
+public class BarResource { // <4>
+
+    // ...
+}
+----
+
+<1> a schema name without suffix
+<2> the suffix configuration
+<3> the class name of the `Foo` schema got the configured `Resource` suffix
+<4> the class name of the `BarResource` is identical to the original schema name. Since the existing suffix is equal to `model-name-suffix` it is ignored. Otherwise, This prevents funny class names like `BarResourceResource`.
+
+That's it. pass:[<i class="far fa-smile"></i>]
