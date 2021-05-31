@@ -30,7 +30,7 @@ See the link:{oap-docs}[documentation] for more. There is also a link:{oap-playg
 
 See the link:{oap-spring}[release notes] for the full details (it is the same for spring & micronaut).
 
-apart from a couple of bug fixes and improvements for multipart request and bean-validations, openapi-processor is now able to automatically add a suffix to the generated model classes.
+apart from a couple of bug fixes and improvements for multipart requests and bean-validations, openapi-processor is now able to automatically add a suffix to the generated model classes.
 
 This is enabled by configuring the `model-name-suffix` in the `mapping.yaml`:
 
